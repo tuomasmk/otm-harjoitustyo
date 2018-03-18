@@ -1,0 +1,116 @@
+commit ee61ef2470cbddceee2f655e5441b792fbc1a990
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 18:09:19 2018 +0200
+
+    muokattu tiedostoja
+
+ tiedostoja/file1  | 0
+ tiedostoja/file2  | 0
+ tiedostoja/file22 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit af005e46818aa7166dde0c38c46367e0d35db81a
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 18:06:11 2018 +0200
+
+    tiedostoja lisätty
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 89c06a9efdf728db058fb8e58ba86f30cf1f6527
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 18:01:48 2018 +0200
+
+    kirjoitusvirhe korjattu
+
+ eka.txt    | 19 +------------------
+ kolmas.txt |  4 +++-
+ 2 files changed, 4 insertions(+), 19 deletions(-)
+
+commit e62d01d335f7eb56de9e7c7e54b0df6d75867a17
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 17:59:10 2018 +0200
+
+    uudelleennimetty tiedosto->eka
+
+ eka.txt      | 8921 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tiedosto.txt | 8921 ----------------------------------------------------------
+ 2 files changed, 8921 insertions(+), 8921 deletions(-)
+
+commit f91884f5b54cb60823e45a18f272d03ed6293319
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 17:58:03 2018 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 227168907abf4f7c13628965520977e341c09e9a
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 17:55:20 2018 +0200
+
+    tiedostoa muutettu
+
+ tiedosto.txt | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+commit 99ae65024976a3449bb59c0ddf2721163a9f1169
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 17:51:20 2018 +0200
+
+    täydennetty tiedosto
+
+ tiedosto.txt | 8928 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 8928 insertions(+)
+
+commit a3223f7176c37657bdb7b41ddc927a9bc7b63e57
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 10:59:26 2018 +0200
+
+    stuff lisätty
+
+ stuff/jokin.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 0289a5e9b8f1a819e43d3a6f5bf99be4ec6ed53a
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 10:58:18 2018 +0200
+
+    muutokset tiedostoissa toinen ja kolmas
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 1cec421f47cea26f1db4bbc4260eec022d362c4a
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 10:57:00 2018 +0200
+
+    kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 989151bb02b1510a0124da49ed93c2273bc1ccc1
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 10:55:23 2018 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit fd581624f7cfcc66472c29b3d63ae2c5aeaad836
+Author: Tuomas <32363849+tuomasmk@users.noreply.github.com>
+Date:   Sun Mar 18 10:53:54 2018 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
