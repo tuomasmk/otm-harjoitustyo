@@ -2,8 +2,8 @@
 
 ## Ensimmäisen viikon laskarit
 
-(komentorivi.txt)[https://github.com/tuomasmk/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt]
-(gitlog.txt)[https://github.com/tuomasmk/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt]
+[komentorivi.txt](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+[gitlog.txt](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
 **The standard Lorem Ipsum passage, used since the 1500s**
 
