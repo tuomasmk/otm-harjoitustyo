@@ -1,6 +1,6 @@
 # Vaatimusmäärittely
 ## Sovelluksen tarkoitus
-"Tetris on tietokonepeli, jonka on alun perin tehnyt neuvostoliittolainen Aleksei Pažitnov kesäkuussa 1984 ja jonka Vadim Gerasimov siirsi IBM PC:lle." ([Wikipedia](https://fi.wikipedia.org/wiki/Tetris))
+Tetris on tietokonepeli, jossa putoavia paloja yritetään järjestää täysiksi riveiksi. Täydet rivit katoavat ja ylemmät rivit tippuvat alaspäin. Katoavista riveistä saa usein pisteitä ja peli nopeutuu edetessään.
 
 ## Perusversion tarjoama toiminnallisuus
 *Palikoita tulee au<tomaattisesti
