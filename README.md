@@ -1,6 +1,7 @@
-# otm-harjoitustyö
+﻿# otm-harjoitustyö
 
 ## Ensimmäisen viikon laskarit
+
 
 [komentorivi.txt](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
