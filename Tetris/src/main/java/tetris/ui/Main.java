@@ -48,7 +48,12 @@ public class Main extends Application{
         
         new AnimationTimer() {
             double newY = rect.getY() + rect.getHeight();
+            long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
+                if(currentNanoTime - lastTime < 1000000000 / 100) {
+                    return;
+                }
+                lastTime = currentNanoTime;
                 gc.clearRect(0, 0, gameWidth, gameHeight);
 //                gc.setFill(Color.RED);
 //                gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());

@@ -7,10 +7,10 @@ abstract public class Piece {
     abstract public void moveTo(int x, int y);
     
     public boolean touches(int x, int y) {
-        for(Square square : parts) {
-            if(square.getY()+square.getSize() >= y) {
+        for (Square square : parts) {
+            if (square.getY() + square.getSize() >= y) {
                 return true;
-            } else if (square.getX()+square.getSize() >= x) {
+            } else if (square.getX() + square.getSize() >= x) {
                 return true;
             }
         }
@@ -31,10 +31,10 @@ abstract public class Piece {
             case DOWN: shiftY = 1;
                 break;
         }
-        for(Square square : parts) {
+        for (Square square : parts) {
             square.setX(square.getX() + shiftX * shift);
             square.setY(square.getY() + shiftY * shift);
-            }    
+        }    
     }
     
     public void move(Direction direction) {
