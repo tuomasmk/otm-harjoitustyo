@@ -3,20 +3,20 @@ package PieceTest;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import tetris.Direction;
-import tetris.Piece;
-import tetris.Sovelluslogiikka;
-import tetris.SquarePiece;
+import tetris.components.Direction;
+import tetris.components.Piece;
+import tetris.logics.GameLogic;
+import tetris.components.SquarePiece;
 
 
 public class PieceTest {
     
     Piece piece;
-    Sovelluslogiikka tetris;
+    GameLogic tetris;
     
     @Before
     public void setUp() {
-        tetris = new Sovelluslogiikka(1);
+        tetris = new GameLogic(1);
         piece = new SquarePiece(tetris, 5, 10);
     }
     

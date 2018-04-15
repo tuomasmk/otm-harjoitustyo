@@ -1,9 +1,10 @@
-package tetris;
+package tetris.components;
 
+import tetris.logics.GameLogic;
 import javafx.scene.paint.Color;
 
 abstract public class Piece {
-    protected Sovelluslogiikka tetris;
+    protected GameLogic tetris;
     protected Point location;
     protected Color color;
     protected Color borderColor;

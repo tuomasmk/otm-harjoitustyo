@@ -1,11 +1,12 @@
-package tetris;
+package tetris.components;
 
+import tetris.logics.GameLogic;
 import javafx.scene.paint.Color;
 
 
 public class SquarePiece extends Piece {
 
-    public SquarePiece(Sovelluslogiikka tetris, int x, int y) {
+    public SquarePiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
         this.color = Color.CYAN;

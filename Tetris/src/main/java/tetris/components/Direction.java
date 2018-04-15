@@ -1,4 +1,4 @@
-package tetris;
+package tetris.components;
 
 
 public enum Direction {

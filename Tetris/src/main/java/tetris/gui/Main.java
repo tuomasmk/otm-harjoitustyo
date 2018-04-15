@@ -1,33 +1,24 @@
-package tetris.ui;
+package tetris.gui;
 
 import java.util.Optional;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import tetris.ColoredPoint;
-import tetris.Direction;
-import tetris.Piece;
-import tetris.Point;
-import tetris.Sovelluslogiikka;
-import tetris.Square;
-import tetris.SquarePiece;
+import tetris.components.ColoredPoint;
+import tetris.components.Direction;
+import tetris.components.Piece;
+import tetris.components.Point;
+import tetris.logics.GameLogic;
+import tetris.components.SquarePiece;
 
 
 public class Main extends Application{
@@ -54,7 +45,7 @@ public class Main extends Application{
 //        
 //        root.getChildren().add(hbox);
         
-        Sovelluslogiikka tetris = new Sovelluslogiikka(size);
+        GameLogic tetris = new GameLogic(size);
         
         Canvas canvas = new Canvas(gameWidth, gameHeight);
         root.getChildren().add(canvas);

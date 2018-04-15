@@ -1,9 +1,12 @@
-package tetris;
+package tetris.logics;
 
 import javafx.scene.shape.Rectangle;
+import tetris.components.ColoredPoint;
+import tetris.components.Piece;
+import tetris.components.SquarePiece;
 
 
-public class Sovelluslogiikka {
+public class GameLogic {
     private int gameHeight;
     private int gameWidth;
     private int size;
@@ -11,7 +14,7 @@ public class Sovelluslogiikka {
     private Piece piece;
     private boolean gameOver;
 
-    public Sovelluslogiikka(int size) {
+    public GameLogic(int size) {
         gameHeight = 40;
         gameWidth = 20;
         this.size = size;
@@ -30,7 +33,7 @@ public class Sovelluslogiikka {
             for (int i = 0; i < piece.getParts().length; i++) {
                 int y = piece.getParts()[i].getY()+piece.getLocation().getY();
                 int x = piece.getParts()[i].getX()+piece.getLocation().getX();
-                pieces[y][x] = new ColoredPoint(x, y, piece.getColor());
+                pieces[y][x] = new ColoredPoint(x, y, piece.getColor(), piece.getBorderColor());
             }
             piece = null;
         }

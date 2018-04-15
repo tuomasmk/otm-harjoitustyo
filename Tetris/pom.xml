@@ -44,7 +44,7 @@
                 <version>0.8.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>tetris/ui/*</exclude>
+                        <exclude>tetris/gui/*</exclude>
                     </excludes>
                 </configuration> 
                 <executions>
