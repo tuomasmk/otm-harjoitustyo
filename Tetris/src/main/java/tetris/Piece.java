@@ -1,16 +1,22 @@
 package tetris;
 
+import javafx.scene.paint.Color;
+
 abstract public class Piece {
+    protected Sovelluslogiikka tetris;
+    protected Point location;
+    protected Color color;
+    protected Color borderColor;
     protected int rotation;
-    protected Square[] parts;
+    protected Point[] parts;
     
-    abstract public void moveTo(int x, int y);
+    abstract public void moveTo(int x, int y, int size);
     
-    public boolean touches(int x, int y) {
-        for (Square square : parts) {
-            if (square.getY() + square.getSize() >= y) {
+    public boolean touches(int x, int y, int size) {
+        for (Point point : parts) {
+            if (point.getY() + size >= y) {
                 return true;
-            } else if (square.getX() + square.getSize() >= x) {
+            } else if (point.getX() + size >= x) {
                 return true;
             }
         }
@@ -19,29 +25,79 @@ abstract public class Piece {
     
     public void move(Direction direction, int shift) {
         int shiftX = 0;
+        switch (direction) {
+            case LEFT: shiftX = -1;
+                break;
+            case RIGHT: shiftX = 1;
+                break;
+            case DOWN: this.drop(shift);
+                return;
+        }
+        doMove(shiftX, 0, shift);
+        if (tetris.touchesWall(this)) {
+            doMove((-1 * shiftX), 0, shift);
+        }
+    }
+    
+    public void doMove(Direction direction, int shift) {
+        int shiftX = 0;
         int shiftY = 0;
         switch (direction) {
             case LEFT: 
                 shiftX = -1;
-//                System.out.println("LEFT: " + parts[0].getX()
-//                    + " newX: " + (parts[0].getX() + shiftX * shift));
                 break;
             case RIGHT: shiftX = 1;
                 break;
             case DOWN: shiftY = 1;
                 break;
         }
-        for (Square square : parts) {
-            square.setX(square.getX() + shiftX * shift);
-            square.setY(square.getY() + shiftY * shift);
+        for (Point point : parts) {
+            point.setX(point.getX() + shiftX * shift);
+            point.setY(point.getY() + shiftY * shift);
         }    
     }
     
-    public void move(Direction direction) {
-        move(direction, parts[0].getSize());
+    public void doMove(int shiftX, int shiftY, int shift) {
+        location.setX(location.getX() + shiftX * shift);
+        location.setY(location.getY() + shiftY * shift);
+    }
+    
+    /**
+     * Method moves piece downwards with the amount stated in shift. 
+     * 
+     * @param shift
+     * @return  true if piece touches floor or another piece.
+     */
+    public boolean drop(int shift) {
+        doMove(0, 1, shift);
+        if (tetris.touchesFloor(this)) {
+            doMove(0, -1, shift);
+            return true;
+        }
+        return false;
     }
 
-    public Square[] getParts() {
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }    
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public Point[] getParts() {
         return parts;
     }
 
@@ -49,7 +105,7 @@ abstract public class Piece {
         return rotation;
     }
 
-    public void setParts(Square[] parts) {
+    public void setParts(Point[] parts) {
         this.parts = parts;
     }
     

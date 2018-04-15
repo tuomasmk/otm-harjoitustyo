@@ -5,16 +5,19 @@ import org.junit.Before;
 import org.junit.Test;
 import tetris.Direction;
 import tetris.Piece;
+import tetris.Sovelluslogiikka;
 import tetris.SquarePiece;
 
 
 public class PieceTest {
     
     Piece piece;
+    Sovelluslogiikka tetris;
     
     @Before
     public void setUp() {
-        piece = new SquarePiece(20, 20, 20);
+        tetris = new Sovelluslogiikka(1);
+        piece = new SquarePiece(tetris, 5, 10);
     }
     
     @Test
@@ -29,29 +32,29 @@ public class PieceTest {
     
     @Test
     public void firstSquareIsInGivenCoordinates() {
-        assertEquals(20, piece.getParts()[0].getX());
-        assertEquals(20, piece.getParts()[0].getY());
+        assertEquals(5, piece.getLocation().getX());
+        assertEquals(10, piece.getLocation().getY());
     }
     
     @Test
     public void pieceCanBeMovedDown() {
-        piece.move(Direction.DOWN);
-        assertEquals(20, piece.getParts()[0].getX());
-        assertEquals(40, piece.getParts()[0].getY());
+        piece.move(Direction.DOWN, 1);
+        assertEquals(5, piece.getLocation().getX());
+        assertEquals(11, piece.getLocation().getY());
     }
     
     @Test
     public void pieceCanBeMovedLeft() {
-        piece.move(Direction.LEFT);
-        assertEquals(0, piece.getParts()[0].getX());
-        assertEquals(20, piece.getParts()[0].getY());
+        piece.move(Direction.LEFT, 1);
+        assertEquals(4, piece.getLocation().getX());
+        assertEquals(10, piece.getLocation().getY());
     }
     
     @Test
     public void pieceCanBeMovedRight() {
-        piece.move(Direction.RIGHT);
-        assertEquals(40, piece.getParts()[0].getX());
-        assertEquals(20, piece.getParts()[0].getY());
+        piece.move(Direction.RIGHT, 1);
+        assertEquals(6, piece.getLocation().getX());
+        assertEquals(10, piece.getLocation().getY());
     }
             
 }
