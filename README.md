@@ -5,6 +5,8 @@ Harjoitustyön aiheena on perinteinen tetris. Tetriksessä paloja tippuu pelialu
 ## Dokumentaatio
 
 
+[arkkitehtuuri](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
 [vaatimusmäärittely](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
 [työaikakirjanpito](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tuntikirjanpito.md)
