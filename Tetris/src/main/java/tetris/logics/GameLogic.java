@@ -31,8 +31,8 @@ public class GameLogic {
     public void advance(int shift) {
         if (this.piece.drop(shift)) {
             for (int i = 0; i < piece.getParts().length; i++) {
-                int y = piece.getParts()[i].getY()+piece.getLocation().getY();
-                int x = piece.getParts()[i].getX()+piece.getLocation().getX();
+                int y = piece.getParts()[i].getY() + piece.getLocation().getY();
+                int x = piece.getParts()[i].getX() + piece.getLocation().getX();
                 pieces[y][x] = new ColoredPoint(x, y, piece.getColor(), piece.getBorderColor());
             }
             piece = null;
@@ -44,8 +44,8 @@ public class GameLogic {
     
     public boolean touches(Piece piece) {
         for (int i = 0; i < 4; i++) {
-            int y = piece.getParts()[i].getY()+piece.getLocation().getY();
-            int x = piece.getParts()[i].getX()+piece.getLocation().getX();
+            int y = piece.getParts()[i].getY() + piece.getLocation().getY();
+            int x = piece.getParts()[i].getX() + piece.getLocation().getX();
             if (pieces[y][x] != null) {
                 return true;
             }
@@ -55,8 +55,8 @@ public class GameLogic {
     
     public boolean touchesFloor(Piece piece) {
         for (int i = 0; i < 4; i++) {
-            int y = piece.getParts()[i].getY()+piece.getLocation().getY();
-            int x = piece.getParts()[i].getX()+piece.getLocation().getX();
+            int y = piece.getParts()[i].getY() + piece.getLocation().getY();
+            int x = piece.getParts()[i].getX() + piece.getLocation().getX();
             if (y >= gameHeight) {
                 return true;
             } else if (pieces[y][x] != null) {
@@ -68,8 +68,8 @@ public class GameLogic {
     
     public boolean touchesWall(Piece piece) {
         for (int i = 0; i < 4; i++) {
-            int y = piece.getParts()[i].getY()+piece.getLocation().getY();
-            int x = piece.getParts()[i].getX()+piece.getLocation().getX();
+            int y = piece.getParts()[i].getY() + piece.getLocation().getY();
+            int x = piece.getParts()[i].getX() + piece.getLocation().getX();
             if (x < 0 || x >= gameWidth) {
                 return true;
             } else if (pieces[y][x] != null) {
