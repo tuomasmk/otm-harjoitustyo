@@ -30,10 +30,11 @@ public class Main extends Application{
         
     @Override
     public void start(Stage stage) throws InterruptedException {
-        final int gameHeight = 960;
-        final int gameWidth = 480;
-        final int nrOfPieces = 40;
-        final int size = gameHeight/nrOfPieces;
+        GameLogic tetris = new GameLogic();
+        final int size = 30;
+        final int gameHeight = tetris.getGameHeight() * size;
+        final int gameWidth = tetris.getGameWidth() * size;
+        
         
         stage.setTitle("Tetris");
         Group root = new Group();
@@ -46,15 +47,12 @@ public class Main extends Application{
 //        
 //        root.getChildren().add(hbox);
         
-        GameLogic tetris = new GameLogic(size);
-        
         Canvas canvas = new Canvas(gameWidth, gameHeight);
         root.getChildren().add(canvas);
         
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        Piece piece1 = new SquarePiece(tetris, gameWidth/2, 0);
-//        Rectangle rect = new Rectangle(50, 50, 20, 20);
+        boolean spacePressed = false;
         
         //draw layout
         new AnimationTimer() {
@@ -72,7 +70,6 @@ public class Main extends Application{
                 lastTime = currentNanoTime;
                 gc.clearRect(0, 0, gameWidth, gameHeight);
                 gc.setFill(Color.LIGHTGRAY);
-                gc.setLineWidth(5);
                 gc.fillRect(0, 0, gameWidth, gameHeight);
                 piece = tetris.getPiece();
                 for(Point point : piece.getParts()) {
@@ -84,20 +81,18 @@ public class Main extends Application{
                     gc.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
                 }
                 pieces = tetris.getPieces();
-//                System.out.println("GetPieces: ");
-//                tetris.tulostaTaulukko(pieces);
                 for (int row = 0; row < pieces.length; row++) {
                     for (int col = 0; col < pieces[0].length; col++) {
                         if (pieces[row][col] != null) {
                             cPoint = pieces[row][col];
                             gc.setFill(cPoint.getBorderColor());
-                            gc.fillRect(cPoint.getX() * size,
-                                        cPoint.getY() * size,
+                            gc.fillRect(col * size,
+                                        row * size,
                                         size,
                                         size);
                             gc.setFill(cPoint.getColor());
-                            gc.fillRect(cPoint.getX() * size + 1,
-                                        cPoint.getY() * size + 1,
+                            gc.fillRect(col * size + 1,
+                                        row * size + 1,
                                         size - 2,
                                         size - 2);
                         }
@@ -119,26 +114,23 @@ public class Main extends Application{
                     Platform.runLater(alert::showAndWait);
 
                 }
-                if(currentNanoTime - lastTime < 1000000000 / 15) {
+                if(currentNanoTime - lastTime < 1000000000 / (1 + tetris.getGameSpeed())) {
                     return;
                 }
                 lastTime = currentNanoTime;
-                tetris.advance(1);
+                tetris.advance();
             }
         }.start();
         
         scene.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.UP)) {
-                ;
+                tetris.getPiece().rotate();
             } else if (event.getCode().equals(KeyCode.DOWN)) {
-//                System.out.println("DOWN pressed");
-                tetris.getPiece().drop(1);
+                tetris.getPiece().drop();
             } else if (event.getCode().equals(KeyCode.RIGHT)) {
-//                System.out.println("RIGHT pressed");
-                tetris.getPiece().move(Direction.RIGHT, 1);
+                tetris.getPiece().move(Direction.RIGHT);
             } else if (event.getCode().equals(KeyCode.LEFT)) {
-//                System.out.println("LEFT pressed");
-                tetris.getPiece().move(Direction.LEFT, 1);
+                tetris.getPiece().move(Direction.LEFT);
             } else if (event.getCode().equals(KeyCode.SPACE)) {
                 tetris.getPiece().dropAllTheWay();
             }

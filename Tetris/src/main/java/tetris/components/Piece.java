@@ -11,35 +11,36 @@ abstract public class Piece {
     protected int rotation;
     protected Point[] parts;
     
-    abstract public void moveTo(int x, int y, int size);
+    abstract public void rotate();
     
-    public boolean touches(int x, int y, int size) {
-        for (Point point : parts) {
-            if (point.getY() + size >= y) {
-                return true;
-            } else if (point.getX() + size >= x) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public void move(Direction direction, int shift) {
+    /**
+     * Moves the piece to the specified direction
+     * if it does not collide with anything.
+     * 
+     * @param direction 
+     */
+    public void move(Direction direction) {
         int shiftX = 0;
         switch (direction) {
             case LEFT: shiftX = -1;
                 break;
             case RIGHT: shiftX = 1;
                 break;
-            case DOWN: this.drop(shift);
+            case DOWN: this.drop();
                 return;
         }
-        doMove(shiftX, 0, shift);
+        doMove(shiftX, 0, 1);
         if (tetris.touchesWall(this)) {
-            doMove((-1 * shiftX), 0, shift);
+            doMove((-1 * shiftX), 0, 1);
         }
     }
     
+    /**
+     * Moves the piece to the given direction. 
+     * 
+     * @param direction
+     * @param shift how much to move.
+     */
     public void doMove(Direction direction, int shift) {
         int shiftX = 0;
         int shiftY = 0;
@@ -47,18 +48,21 @@ abstract public class Piece {
             case LEFT: 
                 shiftX = -1;
                 break;
-            case RIGHT: shiftX = 1;
+            case RIGHT: 
+                shiftX = 1;
                 break;
-            case DOWN: shiftY = 1;
+            case DOWN: 
+                shiftY = 1;
+                break;
+            case UP: 
+                shiftY = -1;
                 break;
         }
-        for (Point point : parts) {
-            point.setX(point.getX() + shiftX * shift);
-            point.setY(point.getY() + shiftY * shift);
-        }    
+        location.setX(location.getX() + shiftX * shift);
+        location.setY(location.getY() + shiftY * shift);    
     }
     
-    public void doMove(int shiftX, int shiftY, int shift) {
+    private void doMove(int shiftX, int shiftY, int shift) {
         location.setX(location.getX() + shiftX * shift);
         location.setY(location.getY() + shiftY * shift);
     }
@@ -69,21 +73,20 @@ abstract public class Piece {
      * @param shift
      * @return  true if piece touches floor or another piece.
      */
-    public boolean drop(int shift) {
-        doMove(0, 1, shift);
+    public boolean drop() {
+        doMove(0, 1, 1);
         if (tetris.touchesFloor(this)) {
-            doMove(0, -1, shift);
+            doMove(0, -1, 1);
             return true;
         }
         return false;
     }
     
+    /**
+     * Drops the piece until it collides with the floor or another piece.
+     */
     public void dropAllTheWay() {
-        while (!drop(1));
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        while (!drop());
     }
 
     public Color getColor() {
@@ -94,10 +97,6 @@ abstract public class Piece {
         return borderColor;
     }    
 
-    public void setLocation(Point location) {
-        this.location = location;
-    }
-
     public Point getLocation() {
         return location;
     }
@@ -105,15 +104,4 @@ abstract public class Piece {
     public Point[] getParts() {
         return parts;
     }
-
-    public int getRotation() {
-        return rotation;
-    }
-
-    public void setParts(Point[] parts) {
-        this.parts = parts;
-    }
-    
-    
-    
 }
