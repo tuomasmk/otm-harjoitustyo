@@ -8,5 +8,8 @@
 | 10.4. | 2    | projektin siistimistä           |
 | 14.4. | 2    | refaktorointi                   |
 | 15.4. | 7    | refaktorointi, koodaus, testaus |
+| 17.4. | 1    | siistiminen			 |
+| 20.4. | 2    | koodaus			 |
+| 21.4. | 2    | debuggaus			 |
 | ----- | ---- | ------------------------------- |
-| sum   | 22   |
+| sum   | 27   |
