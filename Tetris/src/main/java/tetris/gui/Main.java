@@ -3,6 +3,7 @@ package tetris.gui;
 import java.util.Optional;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -55,18 +56,17 @@ public class Main extends Application{
         Piece piece1 = new SquarePiece(tetris, gameWidth/2, 0);
 //        Rectangle rect = new Rectangle(50, 50, 20, 20);
         
-        
+        //draw layout
         new AnimationTimer() {
             Piece piece; 
             ColoredPoint cPoint;
             ColoredPoint[][] pieces;
-//            double newY = rect.getY() + rect.getHeight();
             long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
                 if(tetris.isGameOver()) {
                     this.stop();
                 }
-                if(currentNanoTime - lastTime < 1000000000 / 5) {
+                if(currentNanoTime - lastTime < 1000000000 / 60) {
                     return;
                 }
                 lastTime = currentNanoTime;
@@ -74,15 +74,6 @@ public class Main extends Application{
                 gc.setFill(Color.LIGHTGRAY);
                 gc.setLineWidth(5);
                 gc.fillRect(0, 0, gameWidth, gameHeight);
-//                gc.fillRect(gameWidth/3, 0, gameWidth/3, gameWidth/3 * 2);
-//                gc.setFill(Color.RED);
-//                gc.fillRect(50, 50, 20, 20);
-//                gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-//                rect.setY(newY);
-//                newY = rect.getY() + rect.getHeight() / 10;
-//                if(newY+rect.getHeight() > gameHeight) {
-//                    newY = 0;
-//                }
                 piece = tetris.getPiece();
                 for(Point point : piece.getParts()) {
                     int x = piece.getLocation().getX() + point.getX();
@@ -93,10 +84,12 @@ public class Main extends Application{
                     gc.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
                 }
                 pieces = tetris.getPieces();
-                for (int i = 0; i < pieces.length; i++) {
-                    for (int j = 0; j < pieces[0].length; j++) {
-                        if (pieces[i][j] != null) {
-                            cPoint = pieces[i][j];
+//                System.out.println("GetPieces: ");
+//                tetris.tulostaTaulukko(pieces);
+                for (int row = 0; row < pieces.length; row++) {
+                    for (int col = 0; col < pieces[0].length; col++) {
+                        if (pieces[row][col] != null) {
+                            cPoint = pieces[row][col];
                             gc.setFill(cPoint.getBorderColor());
                             gc.fillRect(cPoint.getX() * size,
                                         cPoint.getY() * size,
@@ -111,11 +104,26 @@ public class Main extends Application{
                     }
                     
                 }
+            }
+        }.start();
+        
+        //move piece
+        new AnimationTimer() {
+            long lastTime = System.nanoTime();
+            public void handle(long currentNanoTime) {
+                if(tetris.isGameOver()) {
+                    stop();
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Game Over");
+                    alert.setHeaderText("Game Over!");
+                    Platform.runLater(alert::showAndWait);
+
+                }
+                if(currentNanoTime - lastTime < 1000000000 / 15) {
+                    return;
+                }
+                lastTime = currentNanoTime;
                 tetris.advance(1);
-//                piece1.move(Direction.DOWN, 5);
-//                if(piece1.touches(gameWidth, gameHeight, size)) {
-//                    piece1.moveTo(gameWidth/2, 0, size);
-//                }
             }
         }.start();
         
@@ -123,36 +131,19 @@ public class Main extends Application{
             if (event.getCode().equals(KeyCode.UP)) {
                 ;
             } else if (event.getCode().equals(KeyCode.DOWN)) {
-                System.out.println("DOWN pressed");
+//                System.out.println("DOWN pressed");
                 tetris.getPiece().drop(1);
             } else if (event.getCode().equals(KeyCode.RIGHT)) {
-                System.out.println("RIGHT pressed");
+//                System.out.println("RIGHT pressed");
                 tetris.getPiece().move(Direction.RIGHT, 1);
             } else if (event.getCode().equals(KeyCode.LEFT)) {
-                System.out.println("LEFT pressed");
+//                System.out.println("LEFT pressed");
                 tetris.getPiece().move(Direction.LEFT, 1);
+            } else if (event.getCode().equals(KeyCode.SPACE)) {
+                tetris.getPiece().dropAllTheWay();
             }
         });
         
         stage.show();
-        
-//        Alert alert = new Alert(AlertType.CONFIRMATION);
-//            alert.setTitle("Game Over");
-//            alert.setHeaderText("Game Over!");
-//            alert.setContentText("Want to play again?");
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if (result.get() == ButtonType.OK) {
-//                
-//            } else {
-//                
-//            }
-                
-//        
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println("newY: " + newY);
-//            
-//            stage.show();
-//            Thread.sleep(1000);
-//        }
     }
 }

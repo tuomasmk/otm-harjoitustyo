@@ -77,6 +77,10 @@ abstract public class Piece {
         }
         return false;
     }
+    
+    public void dropAllTheWay() {
+        while (!drop(1));
+    }
 
     public void setColor(Color color) {
         this.color = color;

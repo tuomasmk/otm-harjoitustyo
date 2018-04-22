@@ -1,5 +1,7 @@
 package tetris.logics;
 
+import java.util.PriorityQueue;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import tetris.components.ColoredPoint;
 import tetris.components.Piece;
@@ -25,15 +27,62 @@ public class GameLogic {
             }
         }
         piece = new SquarePiece(this, this.gameWidth / 2, 0);
-        gameOver = false;
+    }
+    
+    public void tulostaTaulukko(Object[][] taulukko) {
+        System.out.println("");
+        for (int row = 0; row < taulukko.length; row++) {
+            System.out.printf("%02d", row);
+            for (int col = 0; col < taulukko[0].length; col++) {
+                if (taulukko[row][col] == null) {
+                    System.out.print(".");
+                } else {
+                    System.out.print("#");
+                }
+            }
+            System.out.println("");
+        }
+    }
+    
+    public void dropPieces(int from) {
+        for (int row = from; row > 0; row--) {
+            for (int col = 0; col < pieces[0].length; col++) {
+                    pieces[row][col] = pieces[row-1][col];
+            }
+        }
+    }
+    
+    public void removeRow(int row) {
+        for (int col = 0; col < pieces[0].length; col++) {
+            pieces[row][col] = null;
+        }
+    }
+    
+    public boolean isFullRow(int row) {
+        for (int col = 0; col < pieces[0].length; col++) {
+            if (pieces[row][col] == null) {
+                return false;
+            }
+        }
+        return true;
     }
     
     public void advance(int shift) {
+        PriorityQueue<Integer> deletedRows = new PriorityQueue();
         if (this.piece.drop(shift)) {
             for (int i = 0; i < piece.getParts().length; i++) {
                 int y = piece.getParts()[i].getY() + piece.getLocation().getY();
                 int x = piece.getParts()[i].getX() + piece.getLocation().getX();
                 pieces[y][x] = new ColoredPoint(x, y, piece.getColor(), piece.getBorderColor());
+                if (isFullRow(y)) {
+                    removeRow(y);
+                    deletedRows.add(y);
+                }
+            }
+            while (!deletedRows.isEmpty()) {
+                tulostaTaulukko(pieces);
+                dropPieces(deletedRows.poll());
+                tulostaTaulukko(pieces);
             }
             piece = null;
         }
@@ -112,7 +161,12 @@ public class GameLogic {
     }
 
     public boolean isGameOver() {
-        return gameOver;
+        for (int i = 0; i < gameWidth; i++) {
+            if (pieces[0][i] != null) {
+                return true;
+            }
+        }
+        return false;
     }
     
     
