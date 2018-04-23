@@ -25,11 +25,4 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
-
-    @Override
-    public String toString() {
-        return "(" + x + "," + y + ")";
-    }
-    
-    
 }

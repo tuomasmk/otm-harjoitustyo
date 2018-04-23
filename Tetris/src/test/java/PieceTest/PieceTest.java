@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import tetris.components.Direction;
+import tetris.components.LPiece;
 import tetris.components.Piece;
 import tetris.logics.GameLogic;
 import tetris.components.SquarePiece;
@@ -39,12 +40,12 @@ public class PieceTest {
     
     @Test
     public void rightColorIsReturned() {
-        assertEquals(Color.DEEPSKYBLUE, piece.getColor());
+        assertEquals(Color.DODGERBLUE, piece.getColor());
     }
     
     @Test
     public void rightBorderColorIsReturned() {
-        assertEquals(Color.DARKBLUE, piece.getBorderColor());
+        assertEquals(Color.BLUE, piece.getBorderColor());
     }
     
     @Test
@@ -91,21 +92,51 @@ public class PieceTest {
     }
     
     @Test
-    public void movingDownWithDoMove() {
-        piece.doMove(Direction.DOWN, 1);
-        assertEquals(11, piece.getLocation().getY());
+    public void rotatingPiece() {
+        piece.rotate();
+        assertEquals(5, piece.getLocation().getX());
+        assertEquals(10, piece.getLocation().getY());
     }
     
     @Test
-    public void movingRightWithDoMove() {
-        piece.doMove(Direction.RIGHT, 1);
+    public void createLPiece() {
+        piece = new LPiece(tetris, 1, 2);
+        assertEquals(1, piece.getLocation().getX());
+        assertEquals(2, piece.getLocation().getY());
+    }
+    
+    @Test
+    public void createSPiece() {
+        piece = new LPiece(tetris, 3, 4);
+        assertEquals(3, piece.getLocation().getX());
+        assertEquals(4, piece.getLocation().getY());
+    }
+    
+    @Test
+    public void createTPiece() {
+        piece = new LPiece(tetris, 5, 6);
+        assertEquals(5, piece.getLocation().getX());
+        assertEquals(6, piece.getLocation().getY());
+    }
+    
+    @Test
+    public void createJPiece() {
+        piece = new LPiece(tetris, 7, 8);
+        assertEquals(7, piece.getLocation().getX());
+        assertEquals(8, piece.getLocation().getY());
+    }
+    
+    @Test
+    public void createIPiece() {
+        piece = new LPiece(tetris, 5, 5);
+        assertEquals(5, piece.getLocation().getX());
+        assertEquals(5, piece.getLocation().getY());
+    }
+    
+    @Test
+    public void createReverseSPiece() {
+        piece = new LPiece(tetris, 6, 6);
         assertEquals(6, piece.getLocation().getX());
+        assertEquals(6, piece.getLocation().getY());
     }
-    
-    @Test
-    public void movingLeftWithDoMove() {
-        piece.doMove(Direction.LEFT, 1);
-        assertEquals(4, piece.getLocation().getX());
-    }
-            
 }

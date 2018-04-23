@@ -19,9 +19,9 @@ public class SPiece extends Piece {
         rotation = 0;
     }
     
-    @Override
-    public void rotate() {
-        if (rotation++ % 2 == 0) {
+    
+    public void setRotation(int rotation) {
+        if (rotation == 0) {
             parts[0] = new Point(0, 0);
             parts[1] = new Point(0, 1);
             parts[2] = new Point(1, 1);
@@ -32,11 +32,17 @@ public class SPiece extends Piece {
             parts[2] = new Point(1, 0);
             parts[3] = new Point(2, 0);
         }
-        while (tetris.touchesWall(this)) {
-            doMove(Direction.LEFT, 1);
-        }
-        while (tetris.touchesFloor(this)) {
-            doMove(Direction.UP, 1);
-        }
+        super.rotate();
+    }
+    
+    @Override
+    public void rotate() {
+        setRotation(rotation++ % 2);
+        super.rotate();
+    }
+    
+    protected void undoRotate() {
+        rotation++;
+        setRotation(rotation % 2);
     }
 }

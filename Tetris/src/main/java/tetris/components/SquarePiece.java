@@ -21,4 +21,9 @@ public class SquarePiece extends Piece {
     @Override
     public void rotate() {
     }
+
+    @Override
+    protected void undoRotate() {
+        
+    }
 }

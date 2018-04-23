@@ -11,7 +11,28 @@ abstract public class Piece {
     protected int rotation;
     protected Point[] parts;
     
-    abstract public void rotate();
+    abstract protected void undoRotate();
+    
+    public void rotate() {
+        int x = this.location.getX();
+        int y = this.location.getY();
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (tetris.touchesWall(this)) {
+                    doMove(Direction.LEFT, 1);
+                }
+            }
+            if (!tetris.touchesWall(this) && !tetris.touchesFloor(this)) {
+                break;
+            }
+            this.location.setX(x);
+            doMove(Direction.UP, 1);
+        }
+        if (tetris.touchesWall(this) || tetris.touchesFloor(this)) {
+            this.location.setY(y);
+            undoRotate();
+        }
+    };
     
     /**
      * Moves the piece to the specified direction
@@ -41,7 +62,7 @@ abstract public class Piece {
      * @param direction
      * @param shift how much to move.
      */
-    public void doMove(Direction direction, int shift) {
+    private void doMove(Direction direction, int shift) {
         int shiftX = 0;
         int shiftY = 0;
         switch (direction) {

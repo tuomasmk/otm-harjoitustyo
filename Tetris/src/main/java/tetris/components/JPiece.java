@@ -19,9 +19,8 @@ public class JPiece extends Piece {
         rotation = 0;
     }
     
-    @Override
-    public void rotate() {
-        switch (rotation++ % 4) {
+    private void setRotation(int rotation) {
+        switch (rotation) {
             case 0:
                 parts[0] = new Point(0, 0);
                 parts[1] = new Point(0, 1);
@@ -47,11 +46,16 @@ public class JPiece extends Piece {
                 parts[3] = new Point(0, 2);
                 break;
         }
-        while (tetris.touchesWall(this)) {
-            doMove(Direction.LEFT, 1);
-        }
-        while (tetris.touchesFloor(this)) {
-            doMove(Direction.UP, 1);
-        }
+    }
+    
+    @Override
+    public void rotate() {
+        setRotation(rotation++ % 4);
+        super.rotate();
+    }
+    
+    protected void undoRotate() {
+        rotation += 3;
+        setRotation(rotation % 4);
     }
 }

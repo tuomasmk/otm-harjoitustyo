@@ -20,6 +20,7 @@ public class GameLogic {
     private Piece piece;
     private int rowsRemoved;
     private int gameSpeed;
+    private boolean gameOver;
 
     public GameLogic() {
         gameHeight = 20;
@@ -33,9 +34,10 @@ public class GameLogic {
         piece = createNewPiece(this, this.gameWidth / 2, 0);
         rowsRemoved = 0;
         gameSpeed = 0;
+        gameOver = false;
     }
     
-    public void dropPieces(int from) {
+    private void dropPieces(int from) {
         for (int row = from; row > 0; row--) {
             for (int col = 0; col < pieces[0].length; col++) {
                 pieces[row][col] = pieces[row - 1][col];
@@ -45,7 +47,7 @@ public class GameLogic {
     
     private void removeRow(int row) {
         rowsRemoved++;
-        if (rowsRemoved % 5 == 0) {
+        if (rowsRemoved % 10 == 0) {
             gameSpeed++;
         }
         for (int col = 0; col < pieces[0].length; col++) {
@@ -98,21 +100,9 @@ public class GameLogic {
             while (!deletedRows.isEmpty()) {
                 dropPieces(deletedRows.poll());
             }
-            if (!isGameOver()) {
-                piece = createNewPiece(this, this.gameWidth / 2, 0);
-            }
+            piece = createNewPiece(this, this.gameWidth / 2, 0);
+            gameOver = touchesFloor(piece);
         }
-    }
-    
-    public boolean touches(Piece piece) {
-        for (int i = 0; i < 4; i++) {
-            int y = piece.getParts()[i].getY() + piece.getLocation().getY();
-            int x = piece.getParts()[i].getX() + piece.getLocation().getX();
-            if (pieces[y][x] != null) {
-                return true;
-            }
-        }
-        return false;
     }
     
     public boolean touchesFloor(Piece piece) {
@@ -158,12 +148,7 @@ public class GameLogic {
     }
 
     public boolean isGameOver() {
-        for (int i = 0; i < gameWidth; i++) {
-            if (pieces[0][i] != null) {
-                return true;
-            }
-        }
-        return false;
+        return gameOver;
     }
 
     public int getGameSpeed() {

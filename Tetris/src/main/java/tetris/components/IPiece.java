@@ -23,11 +23,12 @@ public class IPiece extends Piece {
         for (int i = 1; i < 4; i++) {
             parts[i] = new Point(parts[i].getY(), parts[i].getX());
         }
-        while (tetris.touchesWall(this)) {
-            doMove(Direction.LEFT, 1);
-        }
-        while (tetris.touchesFloor(this)) {
-            doMove(Direction.UP, 1);
+        super.rotate();
+    }
+    
+    protected void undoRotate() {
+        for (int i = 1; i < 4; i++) {
+            parts[i] = new Point(parts[i].getY(), parts[i].getX());
         }
     }
 

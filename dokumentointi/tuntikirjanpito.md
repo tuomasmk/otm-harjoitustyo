@@ -12,5 +12,6 @@
 | 20.4. | 2    | koodaus			 |
 | 21.4. | 2    | debuggaus			 |
 | 22.4. | 8    | debuggaus, koodaus, siistiminen |
+| 23.4. | 2    | testaus, siistiminen		 |
 | ----- | ---- | ------------------------------- |
-| sum   | 35   |
+| sum   | 37   |

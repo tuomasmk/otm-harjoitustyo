@@ -19,8 +19,8 @@ public class ReverseSPiece extends Piece {
         rotation = 0;
     }
     
-    public void rotate() {
-        if (rotation++ % 2 == 0) {
+    private void setRotation(int rotation) {
+        if (rotation == 0) {
             parts[0] = new Point(1, 0);
             parts[1] = new Point(1, 1);
             parts[2] = new Point(0, 1);
@@ -31,11 +31,15 @@ public class ReverseSPiece extends Piece {
             parts[2] = new Point(1, 1);
             parts[3] = new Point(2, 1);
         }
-        while (tetris.touchesWall(this)) {
-            doMove(Direction.LEFT, 1);
-        }
-        while (tetris.touchesFloor(this)) {
-            doMove(Direction.UP, 1);
-        }
+    }
+    
+    public void rotate() {
+        setRotation(rotation++ % 2);
+        super.rotate();
+    }
+    
+    protected void undoRotate() {
+        rotation++;
+        setRotation(rotation % 2);
     }
 }
