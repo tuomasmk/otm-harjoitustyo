@@ -14,5 +14,7 @@
 | 22.4. | 8    | debuggaus, koodaus, siistiminen |
 | 23.4. | 2    | testaus, siistiminen		         |
 | 24.4  | 1    | sekvenssikaavio, release        |
+| 27.4. | 4    | tiedon tallennus                |
+| 29.4. | 3    | pisteet                         |
 | ----- | ---- |
-| sum   | 37   |
+| sum   | 44   |

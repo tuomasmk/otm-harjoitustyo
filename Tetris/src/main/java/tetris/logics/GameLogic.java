@@ -1,5 +1,8 @@
 package tetris.logics;
 
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 import tetris.components.ColoredPoint;
@@ -9,8 +12,12 @@ import tetris.components.LPiece;
 import tetris.components.Piece;
 import tetris.components.ReverseSPiece;
 import tetris.components.SPiece;
+import tetris.components.Score;
 import tetris.components.SquarePiece;
 import tetris.components.TPiece;
+import tetris.dao.Database;
+import tetris.dao.ScoresDao;
+import tetris.dao.ScoresFileDao;
 
 
 public class GameLogic {
@@ -18,10 +25,23 @@ public class GameLogic {
     private int gameWidth;
     private ColoredPoint[][] pieces;
     private Piece piece;
+    private Piece nextPiece;
     private int rowsRemoved;
     private int gameSpeed;
     private boolean gameOver;
+    private String playerName;
+    private int score;
+    private int highscore;
+    private int personalBest;
+    private ScoresFileDao scores;
+//    private Database database;
 
+    public GameLogic(String playerName) {
+        this();
+        this.playerName = playerName;
+        getHighScore();
+    }
+    
     public GameLogic() {
         gameHeight = 20;
         gameWidth = 10;
@@ -32,9 +52,44 @@ public class GameLogic {
             }
         }
         piece = createNewPiece(this, this.gameWidth / 2, 0);
+        nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
         rowsRemoved = 0;
         gameSpeed = 0;
         gameOver = false;
+        score = 0;
+        scores = new ScoresFileDao("topscores.txt");
+//        database = new Database();
+    }
+    
+    public void theEnd() {
+        try {
+             scores.saveOrUpdate(new Score(playerName, score));
+        } catch (Exception e) {
+            System.out.println("theEnd error:");
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private void getHighScore() {
+        try {
+            List<Score> scores = this.scores.findAll();
+            Collections.sort(scores);
+            if (!scores.isEmpty()) {
+                highscore = scores.get(0).getScore();
+            } else {
+                highscore = 3;
+            }
+            personalBest = 0;
+            for (int i = 0; i < scores.size(); i++) {
+                if (scores.get(i).getPlayer().equals(playerName)) {
+                    personalBest = scores.get(i).getScore();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("getHighscore error:");
+            System.out.println(e.getMessage());
+        }
     }
     
     private void dropPieces(int from) {
@@ -97,11 +152,26 @@ public class GameLogic {
                     deletedRows.add(y);
                 }
             }
+            increaseScore(deletedRows.size());
             while (!deletedRows.isEmpty()) {
                 dropPieces(deletedRows.poll());
             }
-            piece = createNewPiece(this, this.gameWidth / 2, 0);
+            piece = nextPiece;
+            nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
             gameOver = touchesFloor(piece);
+        }
+    }
+    
+    private void increaseScore(int rows) {
+        switch(rows) {
+            case 1: score += 100;
+                break;
+            case 2: score += 300;
+                break;
+            case 3: score += 600;
+                break;
+            case 4: score += 1000;
+                break;
         }
     }
     
@@ -154,6 +224,24 @@ public class GameLogic {
     public int getGameSpeed() {
         return this.gameSpeed;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Piece getNextPiece() {
+        return nextPiece;
+    }
     
-    
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public int getPersonalBest() {
+        return personalBest;
+    }
+
+//    public Database getDatabase() {
+//        return database;
+//    }
 }
