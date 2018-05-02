@@ -23,15 +23,16 @@ Testit suoritetaan komennolla
 Testikattavuusraportti luodaan komennolla
 
 `mvn test jacoco:report`
-
+### Suoritettava versio
 Ohjelmasta luodaan suoritettava versio komennolla
 
 `mvn package`
 
+### Checkstyle
 Chekckstyle tarkstuksen voi suorittaa komennolla
 
 `mvn checkstyle:checkstyle`
-
+### Javadoc
 JavaDoc luodaan komennolla
 
 `mvn javadoc:javadoc`
