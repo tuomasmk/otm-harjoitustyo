@@ -3,11 +3,14 @@ Lataa tiedosto [tetris_v1.1.jar](https://github.com/tuomasmk/otm-harjoitustyo/re
 
 ## Ohjelman käynnistäminen
 Ohjelma käynnistetään kaksoisklikkaamalla ladattua .jar tiedostoa.
+
 Tai komentoriviltä komennolla
+
 `java -jar tetris_v1.1.jar`
 
 ## Nimen syöttäminen
 Sovellus avaa käynnistyessään ikkunan, johon syötetään oma nimi:
+
 ![aloitusikkuna](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/Aloitusikkuna.png "Aloitusikkuna")
 
 ## Näppäimet
