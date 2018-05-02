@@ -16,6 +16,12 @@ public class Score implements Comparable<Score>{
         this.timestamp = timestamp;
     }
     
+    public Score(int id, String player, int score) {
+        this.id = id;
+        this.player = player;
+        this.score = score;
+    }
+    
     public Score(String player, int score, Timestamp timestamp) {
         this.player = player;
         this.score = score;

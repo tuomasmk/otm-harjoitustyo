@@ -33,8 +33,9 @@ public class GameLogic {
     private int score;
     private int highscore;
     private int personalBest;
-    private ScoresFileDao scores;
-//    private Database database;
+//    private ScoresFileDao scores;
+    private ScoresDao scores;
+    private Database database;
 
     public GameLogic(String playerName) {
         this();
@@ -57,10 +58,14 @@ public class GameLogic {
         gameSpeed = 0;
         gameOver = false;
         score = 0;
-        scores = new ScoresFileDao("topscores.txt");
-//        database = new Database();
+//        scores = new ScoresFileDao("topscores.txt");
+        database = new Database();
+        scores = new ScoresDao(database, "highscores");
     }
     
+    /**
+     * Saves score to a database or a file
+     */
     public void theEnd() {
         try {
              scores.saveOrUpdate(new Score(playerName, score));
@@ -98,11 +103,14 @@ public class GameLogic {
                 pieces[row][col] = pieces[row - 1][col];
             }
         }
+        for (int col = 0; col < pieces[0].length; col++) {
+            pieces[0][col] = null;
+        }
     }
     
     private void removeRow(int row) {
         rowsRemoved++;
-        if (rowsRemoved % 10 == 0) {
+        if (rowsRemoved % 12 == 0) {
             gameSpeed++;
         }
         for (int col = 0; col < pieces[0].length; col++) {
@@ -140,6 +148,11 @@ public class GameLogic {
         return new SquarePiece(tetris, x, y);
     }
     
+    /**
+     * Advances the game.
+     * i.e. drops the piece, removes full rows and 
+     * drops static pieces when a row is removed.
+     */
     public void advance() {
         PriorityQueue<Integer> deletedRows = new PriorityQueue();
         if (this.piece.drop()) {
@@ -175,6 +188,12 @@ public class GameLogic {
         }
     }
     
+    /**
+     * Checks if the given piece touches floor or other pieces.
+     * 
+     * @param piece
+     * @return true if the piece touches floor or other piece.
+     */
     public boolean touchesFloor(Piece piece) {
         for (int i = 0; i < 4; i++) {
             int y = piece.getParts()[i].getY() + piece.getLocation().getY();
@@ -188,6 +207,13 @@ public class GameLogic {
         return false;
     }
     
+    /**
+     * Checks if the given piece touches side of the area or another piece 
+     * i.e. if the given piece can be moved sidewards.
+     * 
+     * @param piece
+     * @return true if the piece touches wall or another piece.
+     */
     public boolean touchesWall(Piece piece) {
         for (int i = 0; i < 4; i++) {
             int y = piece.getParts()[i].getY() + piece.getLocation().getY();
@@ -241,7 +267,7 @@ public class GameLogic {
         return personalBest;
     }
 
-//    public Database getDatabase() {
-//        return database;
-//    }
+    public Database getDatabase() {
+        return database;
+    }
 }

@@ -61,7 +61,7 @@ public class Main extends Application{
         }
         GameLogic tetris = new GameLogic(playerName );
         try {
-//            tetris.getDatabase().connect();
+            tetris.getDatabase().connect();
         } catch (Exception e) {
         
         }
@@ -80,13 +80,13 @@ public class Main extends Application{
         BorderPane bp = new BorderPane();
         Pane pane = new Pane();
         pane.setStyle("-fx-border-style: solid inside;" +
-                        "-fx-border-width: 2" +
+                        "-fx-border-width: 2;" +
                         "-fx-border-color: black;");
         Canvas canvas = new Canvas(gameWidth, gameHeight);
         VBox vb = new VBox();
         vb.setStyle("-fx-border-style: solid;" +
-                    "-fx-border-width: 2" +
-                    "-fx-border-color; black");
+                    "-fx-border-width: 2;" +
+                    "-fx-border-color: black;");
         Canvas nextPiece = new Canvas(6 * size, gameHeight);
         
         pane.getChildren().add(canvas);
@@ -122,30 +122,7 @@ public class Main extends Application{
                 drawPiece(gc, piece, size);
                 pieces = tetris.getPieces();
                 drawPieces(gc, pieces, size);
-                int score = tetris.getScore();
-                int highscore = tetris.getHighscore();
-                int personalBest = tetris.getPersonalBest();
-                gc2.clearRect(0, 0, npWidth, gameHeight);
-                gc2.setFill(Color.LIGHTGRAY);
-                gc2.fillRect(0, 0, npWidth, gameHeight);
-                gc2.setFill(Color.RED);
-                gc2.setFont(Font.font("Comic Sans", FontWeight.BOLD, size/2));
-                gc2.fillText("Score", size, size);
-                gc2.fillText("" + score, size, 2 * size, npWidth);
-                gc2.setLineWidth(1);
-                gc2.setStroke(Color.DARKGRAY);
-                gc2.strokeLine(0, 2.3 * size, npWidth, 2.3 * size);
-                gc2.setFill(Color.WHITE);
-                gc2.fillText("Highscore", size, 3 * size);
-                gc2.fillText("" + (highscore > score ? highscore : score), size, 4 * size);
-                gc2.strokeLine(0, 4.3 * size, npWidth, 4.3 * size);
-                gc2.setFill(Color.BLACK);
-                gc2.fillText("Presonal Best", size, 5 * size);
-                gc2.fillText("" + (personalBest > score ? personalBest : score), size, 6 * size);
-                gc2.strokeLine(0, 6.3 * size, npWidth, 6.3 * size);
-                gc2.setFill(Color.ROYALBLUE);
-                gc2.fillText("Next piece: ", size, 7 * size);
-                drawPiece(gc2, tetris.getNextPiece(), size, 1, 8);
+                drawScores(gc2, tetris, gameHeight, npWidth, size);
             }
         }.start();
         
@@ -192,6 +169,33 @@ public class Main extends Application{
     
     private void toggleSpacePressed() {
         spacePressed = false;
+    }
+    
+    private void drawScores(GraphicsContext gc2, GameLogic tetris, int gameHeight, int npWidth, int size) {
+        int score = tetris.getScore();
+                int highscore = tetris.getHighscore();
+                int personalBest = tetris.getPersonalBest();
+                gc2.clearRect(0, 0, npWidth, gameHeight);
+                gc2.setFill(Color.LIGHTGRAY);
+                gc2.fillRect(0, 0, npWidth, gameHeight);
+                gc2.setFill(Color.RED);
+                gc2.setFont(Font.font("Comic Sans", FontWeight.BOLD, size/2));
+                gc2.fillText("Score", size, size);
+                gc2.fillText("" + score, size, 2 * size, npWidth);
+                gc2.setLineWidth(1);
+                gc2.setStroke(Color.DARKGRAY);
+                gc2.strokeLine(0, 2.3 * size, npWidth, 2.3 * size);
+                gc2.setFill(Color.WHITE);
+                gc2.fillText("Highscore", size, 3 * size);
+                gc2.fillText("" + (highscore > score ? highscore : score), size, 4 * size);
+                gc2.strokeLine(0, 4.3 * size, npWidth, 4.3 * size);
+                gc2.setFill(Color.BLACK);
+                gc2.fillText("Personal Best", size, 5 * size);
+                gc2.fillText("" + (personalBest > score ? personalBest : score), size, 6 * size);
+                gc2.strokeLine(0, 6.3 * size, npWidth, 6.3 * size);
+                gc2.setFill(Color.ROYALBLUE);
+                gc2.fillText("Next piece: ", size, 7 * size);
+                drawPiece(gc2, tetris.getNextPiece(), size, 1, 8);
     }
     
     private void drawPiece(GraphicsContext gc, Piece piece, int size, int x, int y) {
