@@ -68,7 +68,7 @@ public class GameLogic {
      */
     public void theEnd() {
         try {
-             scores.saveOrUpdate(new Score(playerName, score));
+            scores.saveOrUpdate(new Score(playerName, score));
         } catch (Exception e) {
             System.out.println("theEnd error:");
             System.out.println(e.getMessage());
@@ -92,7 +92,6 @@ public class GameLogic {
                 }
             }
         } catch (Exception e) {
-            System.out.println("getHighscore error:");
             System.out.println(e.getMessage());
         }
     }
@@ -176,7 +175,7 @@ public class GameLogic {
     }
     
     private void increaseScore(int rows) {
-        switch(rows) {
+        switch (rows) {
             case 1: score += 100;
                 break;
             case 2: score += 300;

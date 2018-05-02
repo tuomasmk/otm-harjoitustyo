@@ -1,4 +1,4 @@
-package PieceTest;
+package ComponentTests;
 
 import javafx.scene.paint.Color;
 import static org.junit.Assert.*;
@@ -20,11 +20,6 @@ public class PieceTest {
     public void setUp() {
         tetris = new GameLogic();
         piece = new SquarePiece(tetris, 5, 10);
-    }
-    
-    @Test
-    public void pieceExists() {
-        assertTrue(piece!=null);
     }
     
     @Test

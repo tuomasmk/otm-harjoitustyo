@@ -19,11 +19,6 @@ public class GameLogicTest {
     }
     
     @Test
-    public void pieceExists() {
-        assertTrue(tetris != null);
-    }
-    
-    @Test
     public void getGameHeight() {
         assertEquals(20, tetris.getGameHeight());
     }

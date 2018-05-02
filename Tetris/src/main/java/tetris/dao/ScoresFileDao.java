@@ -47,11 +47,11 @@ public class ScoresFileDao implements Dao<Score, Integer> {
 
     @Override
     public List<Score> findAll() throws SQLException {
-       List scores = new ArrayList();
-       for (String key : topScores.keySet()) {
-           scores.add(new Score(key, topScores.get(key)));
-       }
-       return scores;
+        List scores = new ArrayList();
+        for (String key : topScores.keySet()) {
+            scores.add(new Score(key, topScores.get(key)));
+        }
+        return scores;
     }
 
     @Override
@@ -70,10 +70,9 @@ public class ScoresFileDao implements Dao<Score, Integer> {
     private void saveToFile() {
         Path path = Paths.get(filename);
         try {
-            try (BufferedWriter writer = Files.newBufferedWriter(path))
-            {
+            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
                 for (String key : topScores.keySet()) {
-                writer.write(key + ";" + topScores.get(key) + "\n");
+                    writer.write(key + ";" + topScores.get(key) + "\n");
                 }
             }
         } catch (Exception e) {

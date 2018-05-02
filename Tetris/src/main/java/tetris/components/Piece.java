@@ -19,14 +19,16 @@ abstract public class Piece {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
                 if (tetris.touchesWall(this)) {
-                    doMove(Direction.LEFT, 1);
+                    //doMove(Direction.LEFT, 1);
+                    doMove(-1, 0, 1);
                 }
             }
             if (!tetris.touchesWall(this) && !tetris.touchesFloor(this)) {
                 break;
             }
             this.location.setX(x);
-            doMove(Direction.UP, 1);
+            //doMove(Direction.UP, 1);
+            doMove(0, -1, 1);
         }
         if (tetris.touchesWall(this) || tetris.touchesFloor(this)) {
             this.location.setY(y);
@@ -56,32 +58,26 @@ abstract public class Piece {
         }
     }
     
-    /**
-     * Moves the piece to the given direction. 
-     * 
-     * @param direction
-     * @param shift how much to move.
-     */
-    private void doMove(Direction direction, int shift) {
-        int shiftX = 0;
-        int shiftY = 0;
-        switch (direction) {
-            case LEFT: 
-                shiftX = -1;
-                break;
-            case RIGHT: 
-                shiftX = 1;
-                break;
-            case DOWN: 
-                shiftY = 1;
-                break;
-            case UP: 
-                shiftY = -1;
-                break;
-        }
-        location.setX(location.getX() + shiftX * shift);
-        location.setY(location.getY() + shiftY * shift);    
-    }
+//    private void doMove(Direction direction, int shift) {
+//        int shiftX = 0;
+//        int shiftY = 0;
+//        switch (direction) {
+//            case LEFT: 
+//                shiftX = -1;
+//                break;
+//            case RIGHT: 
+//                shiftX = 1;
+//                break;
+//            case DOWN: 
+//                shiftY = 1;
+//                break;
+//            case UP: 
+//                shiftY = -1;
+//                break;
+//        }
+//        location.setX(location.getX() + shiftX * shift);
+//        location.setY(location.getY() + shiftY * shift);    
+//    }
     
     private void doMove(int shiftX, int shiftY, int shift) {
         location.setX(location.getX() + shiftX * shift);
@@ -89,9 +85,8 @@ abstract public class Piece {
     }
     
     /**
-     * Method moves piece downwards with the amount stated in shift. 
+     * Method moves piece downwards. 
      * 
-     * @param shift
      * @return  true if piece touches floor or another piece.
      */
     public boolean drop() {
