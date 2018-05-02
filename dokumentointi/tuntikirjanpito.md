@@ -16,5 +16,7 @@
 | 24.4  | 1    | sekvenssikaavio, release        |
 | 27.4. | 4    | tiedon tallennus                |
 | 29.4. | 3    | pisteet                         |
+| 30.4. | 4    | pisteiden tallennus tietokantaan |
+| 2.5.  | 4    | palautuksen vaatimat muutokset  |
 | ----- | ---- |
-| sum   | 44   |
+| sum   | 52   |
