@@ -22,7 +22,7 @@ Testit suoritetaan komennolla
 
 Testikattavuusraportti luodaan komennolla
 
-`mvn jacoco:report`
+`mvn test jacoco:report`
 
 Ohjelmasta luodaan suoritettava versio komennolla
 
