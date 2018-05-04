@@ -47,20 +47,32 @@ public class GameLogic {
         gameHeight = 20;
         gameWidth = 10;
         pieces = new ColoredPoint[gameHeight][gameWidth];
+        initializeGame();
+//        scores = new ScoresFileDao("topscores.txt");
+        database = new Database();
+        scores = new ScoresDao(database, "highscores");
+        piece = createNewPiece(this, this.gameWidth / 2, 0);
+        nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
+    }
+    
+    private void initializeGame() {
+        pieces = new ColoredPoint[gameHeight][gameWidth];
         for (int i = 0; i < gameHeight; i++) {
             for (int j = 0; j < gameWidth; j++) {
                 pieces[i][j] = null;
             }
         }
-        piece = createNewPiece(this, this.gameWidth / 2, 0);
-        nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
         rowsRemoved = 0;
         gameSpeed = 0;
         gameOver = false;
         score = 0;
-//        scores = new ScoresFileDao("topscores.txt");
-        database = new Database();
-        scores = new ScoresDao(database, "highscores");
+    }
+    
+    /**
+     * Empties the game area and starts a new game.
+     */
+    public void newGame() {
+        initializeGame();
     }
     
     /**

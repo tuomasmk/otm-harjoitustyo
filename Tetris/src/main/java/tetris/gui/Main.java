@@ -38,6 +38,7 @@ import tetris.components.SquarePiece;
 
 public class Main extends Application{
     private boolean spacePressed;
+    private boolean pause;
     
     public static void main(String[] args) {
         launch(args);
@@ -100,18 +101,20 @@ public class Main extends Application{
         GraphicsContext gc2 = nextPiece.getGraphicsContext2D();
         
         spacePressed = false;
+        pause = false;
         
         //draw layout
-        new AnimationTimer() {
+        AnimationTimer at1 = new AnimationTimer() {
             Piece piece; 
             ColoredPoint cPoint;
             ColoredPoint[][] pieces;
             long lastTime = System.nanoTime();
+            @Override
             public void handle(long currentNanoTime) {
                 if(tetris.isGameOver()) {
                     this.stop();
                 }
-                if(currentNanoTime - lastTime < 1000000000 / 60) {
+                if( pause || currentNanoTime - lastTime < 1000000000 / 60) {
                     return;
                 }
                 lastTime = currentNanoTime;
@@ -124,21 +127,22 @@ public class Main extends Application{
                 drawPieces(gc, pieces, size);
                 drawScores(gc2, tetris, gameHeight, npWidth, size);
             }
-        }.start();
+        };
+        at1.start();
         
         //move piece
-        new AnimationTimer() {
+        AnimationTimer at2 = new AnimationTimer() {
             long lastTime = System.nanoTime();
+            @Override
             public void handle(long currentNanoTime) {
                 if(tetris.isGameOver()) {
                     stop();
-                    tetris.theEnd();
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Game Over");
-                    alert.setHeaderText("Game Over!");
-                    Platform.runLater(alert::showAndWait);
+                    gameOver(tetris, new AnimationTimer[] {
+                        at1,
+                        this
+                    });
                 }
-                if(!spacePressed && currentNanoTime - lastTime < 1000000000 / (1 + tetris.getGameSpeed())) {
+                if (pause || (!spacePressed && currentNanoTime - lastTime < 1000000000 / (1 + tetris.getGameSpeed()))) {
                     return;
                 }
                 if (spacePressed) {
@@ -147,7 +151,8 @@ public class Main extends Application{
                 lastTime = currentNanoTime;
                 tetris.advance();
             }
-        }.start();
+        };
+        at2.start();
         
         scene.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.UP)) {
@@ -161,10 +166,46 @@ public class Main extends Application{
             } else if (event.getCode().equals(KeyCode.SPACE)) {
                 spacePressed = true;
                 tetris.getPiece().dropAllTheWay();
+            } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+                togglePause(tetris, gc, size);
             }
         });
         
         stage.show();
+    }
+    
+    private void togglePause(GameLogic tetris, GraphicsContext gc, int size) {
+        pause = !pause;
+        if (pause) {
+            gc.setFill(Color.CYAN);
+            gc.setFont(Font.font("Comic Sans", FontWeight.BOLD, 50));
+            gc.fillText("PAUSE", tetris.getGameWidth() * size / 5, tetris.getGameHeight() * size / 2); 
+        }
+    }
+    
+    private void newGame(GameLogic tetris, AnimationTimer[] ats) {
+        tetris.newGame();
+        for (AnimationTimer at : ats) {
+            at.start();
+        }
+    }
+    
+    private void gameOver(GameLogic tetris, AnimationTimer[] ats) {
+        tetris.theEnd();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Game Over! New Game?");
+        alert.getButtonTypes().clear(); 
+        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+        Platform.runLater(new Runnable(){
+           @Override
+           public void run() {
+               Optional<ButtonType> result = alert.showAndWait();
+               if (result.get() == ButtonType.YES){
+                newGame(tetris, ats);
+                }
+           }
+        });
     }
     
     private void toggleSpacePressed() {
