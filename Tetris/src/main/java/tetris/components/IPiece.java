@@ -16,6 +16,7 @@ public class IPiece extends Piece {
             parts[i] = new Point(0, i);
         }
         rotation = 0;
+        length = 4;
     }
     
     @Override

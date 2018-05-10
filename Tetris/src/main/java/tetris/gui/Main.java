@@ -4,6 +4,9 @@ import java.util.Optional;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,6 +16,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
@@ -37,6 +43,8 @@ import tetris.components.SquarePiece;
 
 
 public class Main extends Application{
+    private GameLogic tetris;
+    private AnimationTimer[] ats;
     private boolean spacePressed;
     private boolean pause;
     
@@ -60,11 +68,11 @@ public class Main extends Application{
         if (playerName.isEmpty()) {
             playerName = "Pingu";
         }
-        GameLogic tetris = new GameLogic(playerName );
+        tetris = new GameLogic(playerName );
         try {
             tetris.getDatabase().connect();
         } catch (Exception e) {
-        
+            e.printStackTrace();
         }
         final int size = 30;
         final int gameHeight = tetris.getGameHeight() * size;
@@ -80,16 +88,17 @@ public class Main extends Application{
 
         BorderPane bp = new BorderPane();
         Pane pane = new Pane();
-        pane.setStyle("-fx-border-style: solid inside;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-border-color: black;");
+//        pane.setStyle("-fx-border-style: solid inside;" +
+//                        "-fx-border-width: 2;" +
+//                        "-fx-border-color: black;");
         Canvas canvas = new Canvas(gameWidth, gameHeight);
         VBox vb = new VBox();
-        vb.setStyle("-fx-border-style: solid;" +
-                    "-fx-border-width: 2;" +
-                    "-fx-border-color: black;");
+//        vb.setStyle("-fx-border-style: solid;" +
+//                    "-fx-border-width: 2;" +
+//                    "-fx-border-color: black;");
         Canvas nextPiece = new Canvas(6 * size, gameHeight);
         
+        bp.setTop(addMenu());
         pane.getChildren().add(canvas);
         bp.setCenter(pane);
         vb.getChildren().add(nextPiece);
@@ -100,6 +109,7 @@ public class Main extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext gc2 = nextPiece.getGraphicsContext2D();
         
+        ats = new AnimationTimer[2];
         spacePressed = false;
         pause = false;
         
@@ -119,7 +129,7 @@ public class Main extends Application{
                 }
                 lastTime = currentNanoTime;
                 gc.clearRect(0, 0, gameWidth, gameHeight);
-                gc.setFill(Color.LIGHTGRAY);
+                gc.setFill(Color.BLACK);
                 gc.fillRect(0, 0, gameWidth, gameHeight);
                 piece = tetris.getPiece();
                 drawPiece(gc, piece, size);
@@ -128,6 +138,7 @@ public class Main extends Application{
                 drawScores(gc2, tetris, gameHeight, npWidth, size);
             }
         };
+        ats[0] = at1;
         at1.start();
         
         //move piece
@@ -152,6 +163,7 @@ public class Main extends Application{
                 tetris.advance();
             }
         };
+        ats[1] = at2;
         at2.start();
         
         scene.setOnKeyPressed((event) -> {
@@ -168,6 +180,8 @@ public class Main extends Application{
                 tetris.getPiece().dropAllTheWay();
             } else if (event.getCode().equals(KeyCode.ESCAPE)) {
                 togglePause(tetris, gc, size);
+            } else if (event.getCode().equals(KeyCode.F2)) {
+                newGame(tetris, ats);
             }
         });
         
@@ -181,6 +195,28 @@ public class Main extends Application{
             gc.setFont(Font.font("Comic Sans", FontWeight.BOLD, 50));
             gc.fillText("PAUSE", tetris.getGameWidth() * size / 5, tetris.getGameHeight() * size / 2); 
         }
+    }
+    
+    private MenuBar addMenu() {
+        MenuBar menubar = new MenuBar();
+        Menu menu = new Menu("Tetris");
+        MenuItem newGame = new MenuItem("New Game");
+        newGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                newGame(tetris, ats);
+            }
+        });
+        MenuItem close = new MenuItem("Close");
+        close.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                System.exit(0);
+            }
+        });
+        menu.getItems().addAll(newGame, close);
+        menubar.getMenus().addAll(menu);
+        return menubar;
     }
     
     private void newGame(GameLogic tetris, AnimationTimer[] ats) {
@@ -200,9 +236,9 @@ public class Main extends Application{
         Platform.runLater(new Runnable(){
            @Override
            public void run() {
-               Optional<ButtonType> result = alert.showAndWait();
-               if (result.get() == ButtonType.YES){
-                newGame(tetris, ats);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.YES){
+                     newGame(tetris, ats);
                 }
            }
         });
@@ -213,30 +249,35 @@ public class Main extends Application{
     }
     
     private void drawScores(GraphicsContext gc2, GameLogic tetris, int gameHeight, int npWidth, int size) {
+        int level = tetris.getLevel();
         int score = tetris.getScore();
-                int highscore = tetris.getHighscore();
-                int personalBest = tetris.getPersonalBest();
-                gc2.clearRect(0, 0, npWidth, gameHeight);
-                gc2.setFill(Color.LIGHTGRAY);
-                gc2.fillRect(0, 0, npWidth, gameHeight);
-                gc2.setFill(Color.RED);
-                gc2.setFont(Font.font("Comic Sans", FontWeight.BOLD, size/2));
-                gc2.fillText("Score", size, size);
-                gc2.fillText("" + score, size, 2 * size, npWidth);
-                gc2.setLineWidth(1);
-                gc2.setStroke(Color.DARKGRAY);
-                gc2.strokeLine(0, 2.3 * size, npWidth, 2.3 * size);
-                gc2.setFill(Color.WHITE);
-                gc2.fillText("Highscore", size, 3 * size);
-                gc2.fillText("" + (highscore > score ? highscore : score), size, 4 * size);
-                gc2.strokeLine(0, 4.3 * size, npWidth, 4.3 * size);
-                gc2.setFill(Color.BLACK);
-                gc2.fillText("Personal Best", size, 5 * size);
-                gc2.fillText("" + (personalBest > score ? personalBest : score), size, 6 * size);
-                gc2.strokeLine(0, 6.3 * size, npWidth, 6.3 * size);
-                gc2.setFill(Color.ROYALBLUE);
-                gc2.fillText("Next piece: ", size, 7 * size);
-                drawPiece(gc2, tetris.getNextPiece(), size, 1, 8);
+        int highscore = tetris.getHighscore();
+        int personalBest = tetris.getPersonalBest();
+        int i = 1;
+        gc2.clearRect(0, 0, npWidth, gameHeight);
+        gc2.setFill(Color.LIGHTGRAY);
+        gc2.fillRect(0, 0, npWidth, gameHeight);
+        gc2.setFont(Font.font("Comic Sans", FontWeight.BOLD, size/2));
+        gc2.setFill(Color.GREEN);
+        gc2.fillText("Level " + level, size, i++ * size);
+        gc2.strokeLine(0, 1.3 * size, npWidth, 1.3 * size);
+        gc2.setFill(Color.RED);
+        gc2.fillText("Score", size, i++ * size);
+        gc2.fillText("" + score, size, i++ * size, npWidth);
+        gc2.setLineWidth(1);
+        gc2.setStroke(Color.DARKGRAY);
+        gc2.strokeLine(0, 3.3 * size, npWidth, 3.3 * size);
+        gc2.setFill(Color.WHITE);
+        gc2.fillText("Highscore", size, i++ * size);
+        gc2.fillText("" + (highscore > score ? highscore : score), size, i++ * size);
+        gc2.strokeLine(0, 5.3 * size, npWidth, 5.3 * size);
+        gc2.setFill(Color.BLACK);
+        gc2.fillText("Personal Best", size, i++ * size);
+        gc2.fillText("" + (personalBest > score ? personalBest : score), size, i++ * size);
+        gc2.strokeLine(0, 7.3 * size, npWidth, 7.3 * size);
+        gc2.setFill(Color.ROYALBLUE);
+        gc2.fillText("Next piece: ", size, i++ * size);
+        drawPiece(gc2, tetris.getNextPiece(), size, 1, i);
     }
     
     private void drawPiece(GraphicsContext gc, Piece piece, int size, int x, int y) {

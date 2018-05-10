@@ -59,9 +59,9 @@ public class PieceRotationTest {
         piece = new LPiece(tetris, 0, 0);
         rotate(7, piece);
         expected = new Point[]{
+            new Point(0, 0),
             new Point(0, 1),
-            new Point(1, 1),
-            new Point(2, 1),
+            new Point(1, 0),
             new Point(2, 0)
         };
         assertEquals(Arrays.toString(expected), Arrays.toString(piece.getParts()));

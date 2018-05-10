@@ -10,11 +10,13 @@ import tetris.components.IPiece;
 import tetris.components.JPiece;
 import tetris.components.LPiece;
 import tetris.components.Piece;
+import tetris.components.Point;
 import tetris.components.ReverseSPiece;
 import tetris.components.SPiece;
 import tetris.components.Score;
 import tetris.components.SquarePiece;
 import tetris.components.TPiece;
+import tetris.dao.Dao;
 import tetris.dao.Database;
 import tetris.dao.ScoresDao;
 import tetris.dao.ScoresFileDao;
@@ -23,18 +25,17 @@ import tetris.dao.ScoresFileDao;
 public class GameLogic {
     private int gameHeight;
     private int gameWidth;
+    private Random random;
     private ColoredPoint[][] pieces;
     private Piece piece;
     private Piece nextPiece;
     private int rowsRemoved;
-    private int gameSpeed;
     private boolean gameOver;
     private String playerName;
     private int score;
     private int highscore;
     private int personalBest;
-//    private ScoresFileDao scores;
-    private ScoresDao scores;
+    private Dao scores;
     private Database database;
 
     public GameLogic(String playerName) {
@@ -47,12 +48,10 @@ public class GameLogic {
         gameHeight = 20;
         gameWidth = 10;
         pieces = new ColoredPoint[gameHeight][gameWidth];
+        database = new Database("database.db");
+        scores = new ScoresDao(database, "highscores");
         initializeGame();
 //        scores = new ScoresFileDao("topscores.txt");
-        database = new Database();
-        scores = new ScoresDao(database, "highscores");
-        piece = createNewPiece(this, this.gameWidth / 2, 0);
-        nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
     }
     
     private void initializeGame() {
@@ -63,9 +62,11 @@ public class GameLogic {
             }
         }
         rowsRemoved = 0;
-        gameSpeed = 0;
         gameOver = false;
         score = 0;
+        random = new Random();
+        piece = createNewPiece();
+        nextPiece = createNewPiece();
     }
     
     /**
@@ -121,9 +122,6 @@ public class GameLogic {
     
     private void removeRow(int row) {
         rowsRemoved++;
-        if (rowsRemoved % 12 == 0) {
-            gameSpeed++;
-        }
         for (int col = 0; col < pieces[0].length; col++) {
             pieces[row][col] = null;
         }
@@ -138,25 +136,32 @@ public class GameLogic {
         return true;
     }
     
-    private Piece createNewPiece(GameLogic tetris, int x, int y) {
-        Random random = new Random();
+    int numberOfPiece = 0;
+    private Piece createNewPiece() {
+        int x = this.gameWidth / 2;
+        int y = 0;
+//        if (numberOfPiece++ < 6) {
+//            return new IPiece(this, x, y);
+//        } else {
+//            return new LPiece(this, x, y);
+//        }
         switch (random.nextInt(7)) {
             case 0: 
-                return new SquarePiece(tetris, x, y);
+                return new SquarePiece(this, x, y);
             case 1:
-                return new IPiece(tetris, x, y);
+                return new IPiece(this, x, y);
             case 2:
-                return new SPiece(tetris, x, y);
+                return new SPiece(this, x, y);
             case 3:
-                return new ReverseSPiece(tetris, x, y);
+                return new ReverseSPiece(this, x, y);
             case 4:
-                return new TPiece(tetris, x, y);
+                return new TPiece(this, x, y);
             case 5:
-                return new LPiece(tetris, x, y);
+                return new LPiece(this, x, y);
             case 6:
-                return new JPiece(tetris, x, y);
+                return new JPiece(this, x, y);
         }
-        return new SquarePiece(tetris, x, y);
+        return new SquarePiece(this, x, y);
     }
     
     /**
@@ -181,7 +186,7 @@ public class GameLogic {
                 dropPieces(deletedRows.poll());
             }
             piece = nextPiece;
-            nextPiece = createNewPiece(this, this.gameWidth / 2, 0);
+            nextPiece = createNewPiece();
             gameOver = touchesFloor(piece);
         }
     }
@@ -209,17 +214,19 @@ public class GameLogic {
         for (int i = 0; i < 4; i++) {
             int y = piece.getParts()[i].getY() + piece.getLocation().getY();
             int x = piece.getParts()[i].getX() + piece.getLocation().getX();
-            if (y >= gameHeight) {
-                return true;
-            } else if (pieces[y][x] != null) {
-                return true;
+            if (y > -1 && x > -1 && x < gameWidth) {
+                if (y >= gameHeight) {
+                    return true;
+                } else if (pieces[y][x] != null) {
+                    return true;
+                }
             }
         }
         return false;
     }
     
     /**
-     * Checks if the given piece touches side of the area or another piece 
+     * Checks if the given piece touches side of the game area or another piece 
      * i.e. if the given piece can be moved sidewards.
      * 
      * @param piece
@@ -229,13 +236,40 @@ public class GameLogic {
         for (int i = 0; i < 4; i++) {
             int y = piece.getParts()[i].getY() + piece.getLocation().getY();
             int x = piece.getParts()[i].getX() + piece.getLocation().getX();
-            if (x < 0 || x >= gameWidth) {
-                return true;
-            } else if (pieces[y][x] != null) {
-                return true;
+            if (y > -1 && y < gameHeight) {
+                if (x < 0 || x >= gameWidth) {
+                    return true;
+                } else if (pieces[y][x] != null) {
+                    return true;
+                }
             }
         }
         return false;
+    }
+    
+    /**
+     * Returns ture if there is an obstacle next to the piece on the left.
+     * @param parts of a piece
+     * @return true if the piece would collide with something when moved left.
+     */
+    public boolean blockOnTheLeft(Piece piece) {
+        if(piece.getLocation().getX() == 0) {
+                return true;
+        }
+        for (Point part : piece.getParts()) {
+            int x = part.getX() + piece.getLocation().getX(); 
+            int y = part.getY() + piece.getLocation().getY();
+            if (x > -1 && y > -1 && x < gameWidth && y < gameHeight) {
+                if (pieces[y][x-1] != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean isOccupied(int x, int y) {
+        return pieces[x][y] != null;
     }
 
     public int getGameHeight() {
@@ -259,7 +293,7 @@ public class GameLogic {
     }
 
     public int getGameSpeed() {
-        return this.gameSpeed;
+        return rowsRemoved / 15;
     }
 
     public int getScore() {
@@ -280,5 +314,9 @@ public class GameLogic {
 
     public Database getDatabase() {
         return database;
+    }
+    
+    public int getLevel() {
+        return getGameSpeed() + 1;
     }
 }

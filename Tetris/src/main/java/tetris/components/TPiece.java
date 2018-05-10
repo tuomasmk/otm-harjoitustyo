@@ -17,15 +17,16 @@ public class TPiece extends Piece {
         parts[2] = new Point(2, 1);
         parts[3] = new Point(1, 0);
         rotation = 0;
+        length = 3;
     }
     
     public void setRotation(int rotation) {
         switch (rotation) {
             case 0:
-                parts[0] = new Point(0, 0);
-                parts[1] = new Point(0, 1);
-                parts[2] = new Point(0, 2);
-                parts[3] = new Point(1, 1);
+                parts[0] = new Point(1, 0);
+                parts[1] = new Point(1, 1);
+                parts[2] = new Point(1, 2);
+                parts[3] = new Point(0, 1);
                 break;
             case 1:
                 parts[0] = new Point(0, 0);
@@ -34,10 +35,10 @@ public class TPiece extends Piece {
                 parts[3] = new Point(1, 1);
                 break;
             case 2:
-                parts[0] = new Point(1, 0);
-                parts[1] = new Point(1, 1);
-                parts[2] = new Point(1, 2);
-                parts[3] = new Point(0, 1);
+                parts[0] = new Point(0, 0);
+                parts[1] = new Point(0, 1);
+                parts[2] = new Point(0, 2);
+                parts[3] = new Point(1, 1);
                 break;
             case 3:
                 parts[0] = new Point(1, 0);
@@ -54,10 +55,11 @@ public class TPiece extends Piece {
         setRotation(rotation++ % 4);
         super.rotate();
     }
-    
+   
+    @Override
     protected void undoRotate() {
-        rotation += 3;
-        setRotation(rotation % 4);
+        rotation += 2;
+        setRotation(rotation++ % 4);
     }
 
 }

@@ -9,6 +9,7 @@ abstract public class Piece {
     protected Color color;
     protected Color borderColor;
     protected int rotation;
+    protected int length;
     protected Point[] parts;
     
     abstract protected void undoRotate();
@@ -16,25 +17,17 @@ abstract public class Piece {
     public void rotate() {
         int x = this.location.getX();
         int y = this.location.getY();
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (tetris.touchesWall(this)) {
-                    //doMove(Direction.LEFT, 1);
-                    doMove(-1, 0, 1);
-                }
+        if (tetris.touchesWall(this)) {
+            int i = 0;
+            while (i++ < (this.length - 1) && tetris.touchesWall(this)) {// && !tetris.blockOnTheLeft(this)) {
+                doMove(-1, 0, 1);
             }
-            if (!tetris.touchesWall(this) && !tetris.touchesFloor(this)) {
-                break;
+            if (tetris.touchesWall(this) || tetris.touchesFloor(this)) {
+                this.location.setX(x);
+                undoRotate();
             }
-            this.location.setX(x);
-            //doMove(Direction.UP, 1);
-            doMove(0, -1, 1);
         }
-        if (tetris.touchesWall(this) || tetris.touchesFloor(this)) {
-            this.location.setY(y);
-            undoRotate();
-        }
-    };
+    }
     
     /**
      * Moves the piece to the specified direction
@@ -57,27 +50,6 @@ abstract public class Piece {
             doMove((-1 * shiftX), 0, 1);
         }
     }
-    
-//    private void doMove(Direction direction, int shift) {
-//        int shiftX = 0;
-//        int shiftY = 0;
-//        switch (direction) {
-//            case LEFT: 
-//                shiftX = -1;
-//                break;
-//            case RIGHT: 
-//                shiftX = 1;
-//                break;
-//            case DOWN: 
-//                shiftY = 1;
-//                break;
-//            case UP: 
-//                shiftY = -1;
-//                break;
-//        }
-//        location.setX(location.getX() + shiftX * shift);
-//        location.setY(location.getY() + shiftY * shift);    
-//    }
     
     private void doMove(int shiftX, int shiftY, int shift) {
         location.setX(location.getX() + shiftX * shift);

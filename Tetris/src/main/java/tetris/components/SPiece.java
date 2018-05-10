@@ -17,6 +17,7 @@ public class SPiece extends Piece {
         parts[2] = new Point(1, 0);
         parts[3] = new Point(2, 0);
         rotation = 0;
+        length = 3;
     }
     
     
@@ -42,7 +43,6 @@ public class SPiece extends Piece {
     }
     
     protected void undoRotate() {
-        rotation++;
-        setRotation(rotation % 2);
+        setRotation(rotation++ % 2);
     }
 }

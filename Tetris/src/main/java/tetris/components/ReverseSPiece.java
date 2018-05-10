@@ -17,6 +17,7 @@ public class ReverseSPiece extends Piece {
         parts[2] = new Point(1, 1);
         parts[3] = new Point(2, 1);
         rotation = 0;
+        length = 3;
     }
     
     private void setRotation(int rotation) {
@@ -39,7 +40,6 @@ public class ReverseSPiece extends Piece {
     }
     
     protected void undoRotate() {
-        rotation++;
-        setRotation(rotation % 2);
+        setRotation(rotation++ % 2);
     }
 }

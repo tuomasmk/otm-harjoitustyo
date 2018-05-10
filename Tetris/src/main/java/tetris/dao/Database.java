@@ -3,25 +3,25 @@ package tetris.dao;
 import java.sql.*;
 
 public class Database {
+    private String name;
+
+    public Database(String name) {
+        if (name.isEmpty()) {
+            name = "database.db";
+        }
+        this.name = name;
+    }
     
     public Connection connect() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + name);
         
-        PreparedStatement statement = connection.prepareStatement("SELECT 1");
+        connection.prepareStatement(""
+            + "CREATE TABLE IF NOT EXISTS highscores \n"
+            + "(id integer PRIMARY KEY, \n"
+            + "name varchar(30) not null, \n"
+            + "score integer not null); \n")
+            .execute();
         
-        PreparedStatement createTable = connection.prepareStatement(""
-                + "CREATE TABLE IF NOT EXISTS highscores \n"
-                + "(id integer PRIMARY KEY, \n"
-                + "name varchar(30) not null, \n"
-                + "score integer not null); \n");
-        
-        Boolean rs = createTable.execute();
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            System.out.println("Toimii");
-        } else  {
-            System.out.println("Ei toimi");
-        }
         return connection;
     }
 }
