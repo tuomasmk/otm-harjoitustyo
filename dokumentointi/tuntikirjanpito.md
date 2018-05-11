@@ -18,5 +18,8 @@
 | 29.4. | 3    | pisteet                         |
 | 30.4. | 4    | pisteiden tallennus tietokantaan |
 | 2.5.  | 4    | palautuksen vaatimat muutokset  |
+| 4.5.  | 6    | koodaus (uusi peli, pause) |
+| 10.5. | 10   | äänien lisäys, hienosäätö, testaus |
+| 11.5. | 8    | dokumentointi, viimeistely      |
 | ----- | ---- |
-| sum   | 52   |
+| sum   | 76   |

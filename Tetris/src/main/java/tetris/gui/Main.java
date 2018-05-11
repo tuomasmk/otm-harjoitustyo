@@ -53,7 +53,7 @@ public class Main extends Application{
         try {
             tetris.getDatabase().connect();
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
         final int size = 30;
         final int gameHeight = tetris.getGameHeight() * size;
@@ -61,12 +61,13 @@ public class Main extends Application{
         final int npHeight = 10 * size;
         final int npWidth = 8 * size;
         
-        
+        //set scene
         stage.setTitle("Tetris");
         Group root = new Group();
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
+        //create panes
         BorderPane bp = new BorderPane();
         Pane pane = new Pane();
         Canvas canvas = new Canvas(gameWidth, gameHeight);
@@ -79,18 +80,22 @@ public class Main extends Application{
         vb.getChildren().add(nextPiece);
         bp.setRight(vb);
         
+        //add music
         bp.setBottom(loadSoundtrack());
         
         root.getChildren().addAll(bp);
         
+        //game area
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        
+        //side area
         GraphicsContext gc2 = nextPiece.getGraphicsContext2D();
         
         ats = new AnimationTimer[2];
         spacePressed = false;
         pause = false;
         
-        //draw layout
+        //draw
         AnimationTimer at1 = new AnimationTimer() {
             Piece piece; 
             ColoredPoint cPoint;
@@ -146,6 +151,7 @@ public class Main extends Application{
         ats[1] = at2;
         at2.start();
         
+        //user input
         scene.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.UP)) {
                 tetris.getPiece().rotate();
@@ -218,6 +224,7 @@ public class Main extends Application{
         }
     }
     
+    //add menu
     private MenuBar addMenu() {
         MenuBar menubar = new MenuBar();
         Menu menu = new Menu("Tetris");
@@ -253,7 +260,7 @@ public class Main extends Application{
      * @param ats 
      */
     private void gameOver(GameLogic tetris, AnimationTimer[] ats) {
-        tetris.theEnd();
+        tetris.saveScore();
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Game Over");
         alert.setHeaderText("Game Over! New Game?");
@@ -274,6 +281,7 @@ public class Main extends Application{
         spacePressed = false;
     }
     
+    //draws the side panel
     private void drawScores(GraphicsContext gc2, GameLogic tetris, int gameHeight, int npWidth, int size) {
         int level = tetris.getLevel();
         int score = tetris.getScore();

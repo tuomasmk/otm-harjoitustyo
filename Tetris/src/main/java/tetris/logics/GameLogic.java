@@ -1,6 +1,5 @@
 package tetris.logics;
 
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -10,7 +9,6 @@ import tetris.components.IPiece;
 import tetris.components.JPiece;
 import tetris.components.LPiece;
 import tetris.components.Piece;
-import tetris.components.Point;
 import tetris.components.ReverseSPiece;
 import tetris.components.SPiece;
 import tetris.components.Score;
@@ -56,6 +54,9 @@ public class GameLogic {
         initializeHighscore();
     }
     
+    /**
+     * Initialize pieces table and other values.
+     */
     private void initializeGame() {
         pieces = new ColoredPoint[gameHeight][gameWidth];
         for (int i = 0; i < gameHeight; i++) {
@@ -79,9 +80,9 @@ public class GameLogic {
     }
     
     /**
-     * Saves score to a database or a file
+     * Saves score to a database or a file.
      */
-    public void theEnd() {
+    public void saveScore() {
         try {
             scores.saveOrUpdate(new Score(playerName, score));
         } catch (Exception e) {

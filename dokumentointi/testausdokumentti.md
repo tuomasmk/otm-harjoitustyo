@@ -9,7 +9,7 @@ Testauksen pääosassa on ollut sovelluslogiikan testaaminen, joka luonteensa vu
 Tiedon tallentamisesta huolehtivaa DAO-luokkaa testattiin itsenäisesti. Testaus toteutettiin erillisessä testaustietokannassa.
 
 ### Testauskattavuus
-Käyttöliittymää lukuunottamatta sovelluksen testauksen rivikattavuus on 84 % ja haarautumakattavauus 64 %. Haarautumakattavuuden matalaa arvoa selittää manuaalisen tastaamisen kohdistuminen tässä testaamatta jääneisiin osiin.
+Käyttöliittymää lukuunottamatta sovelluksen testauksen rivikattavuus on 84 % ja haarautumakattavauus 61 %. Haarautumakattavuuden matalaa arvoa selittää manuaalisen tastaamisen kohdistuminen tässä testaamatta jääneisiin osiin.
 ![testauskattavuus](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tetris_gameplay.png Testauskattavuus)
 
 ## Järjestelmätestaus
