@@ -2,7 +2,7 @@
 
 Harjoitustyön aiheena on perinteinen tetris. Tetriksessä paloja tippuu pelialueen yläreunasta ja ne tulee järjestää täysiin riveihin. Täydet rivit poistuvat tuoden pisteitä ja tehden tilaa uusille.
 
-Ladattava versio: [tetris_v1.1.jar](https://github.com/tuomasmk/otm-harjoitustyo/releases/tag/viikko6)
+Ladattava versio: [tetris_v1.5.jar](https://github.com/tuomasmk/otm-harjoitustyo/releases/tag/v1.5)
 
 ## Dokumentaatio
 
@@ -11,6 +11,8 @@ Ladattava versio: [tetris_v1.1.jar](https://github.com/tuomasmk/otm-harjoitustyo
 [arkkitehtuuri](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 [vaatimusmäärittely](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
+
+[testausdokumentti](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/testausdokumentti.md)
 
 [työaikakirjanpito](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tuntikirjanpito.md)
 
