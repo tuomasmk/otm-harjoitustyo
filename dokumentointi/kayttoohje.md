@@ -1,6 +1,9 @@
 # Käyttöohje
 Lataa tiedosto [tetris_v1.1.jar](https://github.com/tuomasmk/otm-harjoitustyo/releases/tag/viikko6)
 
+## Konfigurointi
+Ohjelma käyttää käynnistyshakemistossa olevaan tietokantaa (tai luo sellaisen), joten ohjelmalla täytyy olla kirjoitusoikeus käynnistyshakemistoon!
+
 ## Ohjelman käynnistäminen
 Ohjelma käynnistetään kaksoisklikkaamalla ladattua .jar tiedostoa.
 
