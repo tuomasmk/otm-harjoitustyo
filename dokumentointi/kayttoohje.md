@@ -19,7 +19,7 @@ Sovellus avaa käynnistyessään ikkunan, johon syötetään oma nimi:
 ## Näppäimet
 Paloja liikutetaan nuolinäppäimillä ja käännetään ylänuolella. 
 
-Palan voi tiputtaa kerralla alas painamalla välilyöntiä.
+Palan voi pudottaa kerralla alas painamalla välilyöntiä.
 
 Pelin saa pysähtymään/jatkumaan Escape-näppäimellä ja musiikin saa päälle/pois M-näppäimellä.
 
