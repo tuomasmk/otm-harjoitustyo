@@ -15,7 +15,7 @@ Sovelluslogiikan riippuvuuksia on havainnollistettu luokkakaavion avulla:
 
 
 ## Tiedon pysyväistallennus
-Tiedot pisteistä pelin päättyessä tallennetaan tietokantaa Score-olioina Data Access Object -suunnittelumallia noudattaen. Tallennettavia tietoja ovat pelaajan nimi sekä pelaajaan saamat pisteet. Peliä aloitettaessa tietokannasta haetaan kaikkien aikojen parhaat pisteet, sekä kyseisen pelaajan parhaat pisteet. Ohjelma luo tarvittaessa tietokannan suoritushakemiston juureen.
+Tiedot pisteistä pelin päättyessä tallennetaan tietokantaan Scoren-olioina Data Access Object -suunnittelumallia noudattaen. Tallennettavia tietoja ovat pelaajan nimi sekä pelaajan saamat pisteet. Peliä aloitettaessa tietokannasta haetaan kaikkien aikojen parhaat pisteet, sekä kyseisen pelaajan parhaat pisteet. Ohjelma luo tarvittaessa tietokannan suoritushakemiston juureen.
 
 ## Päätoiminnallisuudet
 Tetriksen päätoiminnallisuutena on tarjota pelikokemus, joka aiheuttaa reaktion "vielä yksi". Testaajien keskuudessa tämä on osoittautunut varsin onnistuneeksi. 
