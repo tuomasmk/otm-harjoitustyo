@@ -10,7 +10,8 @@ Tiedon tallentamisesta huolehtivaa DAO-luokkaa testattiin itsenäisesti. Testaus
 
 ### Testauskattavuus
 Käyttöliittymää lukuunottamatta sovelluksen testauksen rivikattavuus on 84 % ja haarautumakattavauus 61 %. Haarautumakattavuuden matalaa arvoa selittää manuaalisen tastaamisen kohdistuminen tässä testaamatta jääneisiin osiin.
-![testauskattavuus](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tetris_gameplay.png Testauskattavuus)
+
+![testauskattavuus](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/testauskattavuus.png Testauskattavuus)
 
 ## Järjestelmätestaus
 Sovellusta on testattu Linux- ja Windows-ympäristöissä käynnistämällä ohjelma kuvakkeesta (Windows) tai kuvakkeesta ja komentoriviltä (Linux). Ohjelma on joutunut ensimmäisellä suorituskerralla luomaan tarvitsemansa tietokannan ja sen jälkeen tietokanta on ollut olemassa. Kaikkia käyttöohjeessa kuvattuja toiminnallisuuksia on testattu.
