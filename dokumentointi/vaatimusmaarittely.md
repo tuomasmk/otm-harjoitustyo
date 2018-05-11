@@ -2,6 +2,9 @@
 ## Sovelluksen tarkoitus
 Tetris on tietokonepeli, jossa putoavia paloja yritetään järjestää täysiksi riveiksi. Täydet rivit katoavat ja ylemmät rivit tippuvat alaspäin. Katoavista riveistä saa usein pisteitä ja peli nopeutuu edetessään.
 
+## Käyttöliittymä
+Käyttöliittymä koostuu peli-ikkunas valikoineen, sekä valintaikkunoista. Käynnistyessä käyttäjältä kysytään nimeä ja pelin päättyessä tarjotaan mahdollisuutta aloittaa uusi peli.
+
 ## Perusversion tarjoama toiminnallisuus
 - Palikat putoavat pelialueen yläreunasta.
 - Käyttäjä voi liikuttaa ja käännellä palikoita.
@@ -14,4 +17,5 @@ Tetris on tietokonepeli, jossa putoavia paloja yritetään järjestää täysiks
 ## Jatkokehitysideoita
 - Muuttuvat taustakuvat
 - Muut koristeet
+- Ääniefektit
 - Kaksinpeli
