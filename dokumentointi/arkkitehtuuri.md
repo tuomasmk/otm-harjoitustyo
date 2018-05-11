@@ -4,7 +4,7 @@
 Sovelluksessa käytetään kolmiportaista rakennetta, jossa käyttöliittymä toimii sovelluslogiikan ja käyttäjän välissä ja dao hoitaa tiedon tallennuksen.
 
 ## Käyttöliittymä
-Käyttölittymä hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, seuraavan palan näyttämisen ja pistelaskun. Käyttöliittymä ohjaa käyttäjältä tulevat käskyt oikealle luokalle (palojen liikuttaminen ja kääntäminen). Käyttöliittymää täydentävät valikko ja valintaikkunat.
+Käyttöliittymä on hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, seuraavan palan näyttämisen ja pistelaskun. Käyttöliittymä ohjaa käyttäjältä tulevat käskyt oikealle luokalle (palojen liikuttaminen ja kääntäminen). Käyttöliittymää täydentävät valikko ja valintaikkunat.
 
 ## Sovelluslogiikka
 Tetriksen toiminnallisuuden hoitaa sovelluslogiikka, joka pitää huolta putoavasta palasta, sekä jo paikoilleen jääneistä paloista ja niiden osista. Logiikka poistaa täydet rivit ja liikuttaa niiden päällä olevia rivejä alaspäin tarvittaessa. Sovelluslogiikka myös vastaa pelin etenemisestä tärkeimmän metodinsa advance() avulla. 
