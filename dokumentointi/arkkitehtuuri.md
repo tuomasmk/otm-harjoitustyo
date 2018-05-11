@@ -1,7 +1,7 @@
 # Arkkitehtuuri
 
 ## Rakenne
-Sovelluksessa käytetään kolmiportaista rakennetta. Käyttölittymä toimii sovelluslogiikan ja käyttäjän välissä ja dao hoitaa tiedon tallennuksen.
+Sovelluksessa käytetään kolmiportaista rakennetta, jossa käyttölittymä toimii sovelluslogiikan ja käyttäjän välissä ja dao hoitaa tiedon tallennuksen.
 
 ## Käyttöliittymä
 Käyttölittymä hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, seuraavan palan näyttämisen ja pistelaskun. Käyttöliittymä ohjaa käyttäjältä tulevat käskyt oikealle luokalle (palojen liikuttaminen ja kääntäminen). Käyttöliittymää täydentävät valikko ja valintaikkunat.
