@@ -10,7 +10,7 @@ Käyttölittymä hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, se
 Tetriksen toiminnallisuuden hoitaa sovelluslogiikka, joka pitää huolta putoavasta palasta, sekä jo paikoilleen jääneistä paloista ja niiden osista. Logiikka poistaa täydet rivit ja liikuttaa niiden päällä olevia rivejä alaspäin tarvittaessa. Sovelluslogiikka myös vastaa pelin etenemisestä tärkeimmän metodinsa advance() avulla. 
 
 Sovelluslogiikan riippuvuuksia on havainnollistettu luokkakaavion avulla:
-## Class diagram
+## Luokkakaavio
 ![class diagram](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/class_diagram2.png "Tetris class diagram")
 
 
