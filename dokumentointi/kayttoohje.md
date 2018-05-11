@@ -15,3 +15,9 @@ Sovellus avaa käynnistyessään ikkunan, johon syötetään oma nimi:
 
 ## Näppäimet
 Paloja liikutetaan nuolinäppäimillä ja käännetään ylänuolella. Palan voi tiputtaa kerralla alas painamalla välilyöntiä.
+Pelin saa pysähtymään/jatkumaan Escape-näppäimellä ja musiikin saa päälle/pois M-näppäimellä.
+Uuden pelin voi aloittaa F2-näppäimellä.
+
+![peli-ikkuna](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tetris_gameplay.png "Peli-ikkuna")
+
+Onnea peliin!
