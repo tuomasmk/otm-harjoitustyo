@@ -3,7 +3,7 @@
 Tetris on tietokonepeli, jossa putoavia paloja yritetään järjestää täysiksi riveiksi. Täydet rivit katoavat ja ylemmät rivit tippuvat alaspäin. Katoavista riveistä saa usein pisteitä ja peli nopeutuu edetessään.
 
 ## Käyttöliittymä
-Käyttöliittymä koostuu peli-ikkunas valikoineen, sekä valintaikkunoista. Käynnistyessä käyttäjältä kysytään nimeä ja pelin päättyessä tarjotaan mahdollisuutta aloittaa uusi peli.
+Käyttöliittymä koostuu peli-ikkunasta valikoineen, sekä valintaikkunoista. Käynnistyessä käyttäjältä kysytään nimeä ja pelin päättyessä tarjotaan mahdollisuutta aloittaa uusi peli.
 
 ## Perusversion tarjoama toiminnallisuus
 - Palikat putoavat pelialueen yläreunasta.
@@ -19,3 +19,5 @@ Käyttöliittymä koostuu peli-ikkunas valikoineen, sekä valintaikkunoista. Kä
 - Muut koristeet
 - Ääniefektit
 - Kaksinpeli
+
+Moni testaaja toivoi ruudukkoa hahmottamisen helpottamiseksi. Jos on epävarma paikasta, johon pala tulee putoamaan, voi käyttää alanuolen tarjoamaan mahdollisuutta pudottaa palaa yksi rivi kerrallaan.
