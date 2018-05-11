@@ -1,8 +1,6 @@
 package tetris.components;
 
 import javafx.scene.paint.Color;
-import tetris.components.Point;
-
 
 public class ColoredPoint extends Point {
     private Color color;

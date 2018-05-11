@@ -1,8 +1,5 @@
 package tetris.components;
 
-import java.sql.Timestamp;
-
-
 public class Score implements Comparable<Score> {
     private int id;
     private String player;

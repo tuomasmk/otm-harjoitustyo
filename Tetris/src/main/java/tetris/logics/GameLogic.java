@@ -85,8 +85,7 @@ public class GameLogic {
         try {
             scores.saveOrUpdate(new Score(playerName, score));
         } catch (Exception e) {
-            System.out.println("theEnd error:");
-            System.out.println(e.getMessage());
+            
         }
     }
     
@@ -107,7 +106,7 @@ public class GameLogic {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            
         }
     }
     
@@ -142,11 +141,6 @@ public class GameLogic {
     private Piece createNewPiece() {
         int x = this.gameWidth / 2;
         int y = 0;
-//        if (numberOfPiece++ < 6) {
-//            return new IPiece(this, x, y);
-//        } else {
-//            return new LPiece(this, x, y);
-//        }
         switch (random.nextInt(7)) {
             case 0: 
                 return new SquarePiece(this, x, y);
@@ -249,6 +243,12 @@ public class GameLogic {
         return false;
     }
     
+    /**
+     * Returns true if the given square is not empty.
+     * @param x coordinate.
+     * @param y coordinate.
+     * @return true if the given square is not empty.
+     */
     public boolean isOccupied(int x, int y) {
         return pieces[x][y] != null;
     }
@@ -260,7 +260,12 @@ public class GameLogic {
     public int getGameWidth() {
         return gameWidth;
     }
-
+    
+    /**
+     * Table representation of static pieces.
+     * Empty squares are nulls.
+     * @return table of static pieces.
+     */
     public ColoredPoint[][] getPieces() {
         return pieces;
     }

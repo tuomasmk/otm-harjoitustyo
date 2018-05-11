@@ -4,18 +4,18 @@
 Sovelluksessa käytetään kolmiportaista rakennetta. Käyttölittymä toimii sovelluslogiikan ja käyttäjän välissä ja dao hoitaa tiedon tallennuksen.
 
 ## Käyttöliittymä
-Käyttölittymä hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, seuraavan palan näyttämisen ja pistelaskun. Käyttöliittymä ohjaa käyttäjältä tulevat käskyt oikealle luokalle (palojen liikuttaminen ja kääntäminen).
+Käyttölittymä hyvin pelkistetty. Käyttöliittymä sisältää pelialueen, seuraavan palan näyttämisen ja pistelaskun. Käyttöliittymä ohjaa käyttäjältä tulevat käskyt oikealle luokalle (palojen liikuttaminen ja kääntäminen). Käyttöliittymää täydentävät valikko ja valintaikkunat.
 
 ## Sovelluslogiikka
-Tetriksen toiminnallisuuden hoitaa sovelluslogiikka, joka pitää huolta tippuvasta palasta, sekä jo paikoilleen jääneistä paloista ja niiden osista. Logiikka poistaa täydet rivit ja liikuttaa niiden päällä olevia rivejä alaspäin tarvittaessa. Sovelluslogiikka myös vastaa pelin etenemisestä tärkeimmän metodinsa advance() avulla. 
+Tetriksen toiminnallisuuden hoitaa sovelluslogiikka, joka pitää huolta putoavasta palasta, sekä jo paikoilleen jääneistä paloista ja niiden osista. Logiikka poistaa täydet rivit ja liikuttaa niiden päällä olevia rivejä alaspäin tarvittaessa. Sovelluslogiikka myös vastaa pelin etenemisestä tärkeimmän metodinsa advance() avulla. 
 
 Sovelluslogiikan riippuvuuksia on havainnollistettu luokkakaavion avulla:
 ## Class diagram
-![class diagram](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/Tetris_classdiagram.png "Tetris class diagram")
+![class diagram](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/class_diagram2.png "Tetris class diagram")
 
 
 ## Tiedon pysyväistallennus
-Tiedot pisteistä pelin päättyessä tallennetaan tietokantaa Score-olioina Data Access Object -suunnittelumallin avulla. Tallennettavia tietoja ovat pelaajan nimi, sekä pelaajaan saamat pisteet. Peliä aloitettaessa tietokannasta haetaan kaikkien aikojen parhaat pisteet, sekä kyseisen pelaajan parhaat pisteet. 
+Tiedot pisteistä pelin päättyessä tallennetaan tietokantaa Score-olioina Data Access Object -suunnittelumallia noudattaen. Tallennettavia tietoja ovat pelaajan nimi sekä pelaajaan saamat pisteet. Peliä aloitettaessa tietokannasta haetaan kaikkien aikojen parhaat pisteet, sekä kyseisen pelaajan parhaat pisteet. Ohjelma luo tarvittaessa tietokannan suoritushakemiston juureen.
 
 ## Päätoiminnallisuudet
 Tetriksen päätoiminnallisuutena on tarjota pelikokemus, joka aiheuttaa reaktion "vielä yksi". Testaajien keskuudessa tämä on osoittautunut varsin onnistuneeksi. 
@@ -26,4 +26,8 @@ Pelin toiminnallisuutta havainnollistetaan sekvenssikaaviolla, jossa pelaaja on 
 ![sequence diagram - space pressed](https://github.com/tuomasmk/otm-harjoitustyo/blob/master/dokumentointi/tetris_sequence_diagram_spacePressed.png "Tetris sequence diagram")
 
 ## Ohjelman kehityskohteita
-Palan kääntäminen saattaa tietyissä tilanteissa aiheuttaa palan epäintuitiivista käyttäytymistä, vaikka pala sinänsä kääntyykin aivan oikein.
+Käyttöliittymä on toteutettu täysin yhdessä luokassa. Luokan sisällä on kuitenkin käytetty metodeja hoitamaan pienempiä tehtäviä. Käyttölittymää voisi yrittää jakaa useampaan luokkaan, toisaalta käyttöliittymä muodostuu vain yhdestä ikkunasta ja kahdesta dialogista.
+
+Myös pelin logiikka on kokonaisuudessaan yhdessä suurehkossa tiedostossa. Tiedosto on kuitenkin jaettu pieniin metodeihin, joista jokainen hoitaa oman tehtävänsä. Isoin metodi on pelin etenemisestä vastaava advance(), joka sekin kutsuu muita metodeja. Kokonaisuutta voisi yrittä jakaa useampaan luokkaan.
+
+DAO-rajapinta tuntuu turhalta, koska käytössä on vain yksi sitä käyttävä luokka.
