@@ -9,8 +9,8 @@ public class SquarePiece extends Piece {
     public SquarePiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.DODGERBLUE;
-        this.borderColor = Color.BLUE;
+        this.color = Color.web("5884b3"); //Color.DODGERBLUE;
+        this.borderColor = Color.web("38587a"); //Color.BLUE;
         this.parts = new Point[4];
         parts[0] = new Point(0, 0);
         parts[1] = new Point(0, 1);

@@ -6,8 +6,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,20 +13,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -39,7 +34,6 @@ import tetris.components.Direction;
 import tetris.components.Piece;
 import tetris.components.Point;
 import tetris.logics.GameLogic;
-import tetris.components.SquarePiece;
 
 
 public class Main extends Application{
@@ -47,6 +41,7 @@ public class Main extends Application{
     private AnimationTimer[] ats;
     private boolean spacePressed;
     private boolean pause;
+    private MediaPlayer mPlayer;
     
     public static void main(String[] args) {
         launch(args);
@@ -54,21 +49,7 @@ public class Main extends Application{
         
     @Override
     public void start(Stage stage) throws InterruptedException {
-        TextInputDialog dialog = new TextInputDialog("PlayerName");
-        dialog.setTitle("Player Name");
-        dialog.setHeaderText("Name");
-        dialog.setContentText("Enter name:");
-        dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setVisible(false);
-        Optional<String> result = dialog.showAndWait();
-        String playerName = "";
-        if (result.isPresent()) {
-            playerName = result.get();
-        }
-        if (playerName.isEmpty()) {
-            playerName = "Pingu";
-        }
-        tetris = new GameLogic(playerName );
+        tetris = new GameLogic(askPlayerName());
         try {
             tetris.getDatabase().connect();
         } catch (Exception e) {
@@ -88,14 +69,8 @@ public class Main extends Application{
 
         BorderPane bp = new BorderPane();
         Pane pane = new Pane();
-//        pane.setStyle("-fx-border-style: solid inside;" +
-//                        "-fx-border-width: 2;" +
-//                        "-fx-border-color: black;");
         Canvas canvas = new Canvas(gameWidth, gameHeight);
         VBox vb = new VBox();
-//        vb.setStyle("-fx-border-style: solid;" +
-//                    "-fx-border-width: 2;" +
-//                    "-fx-border-color: black;");
         Canvas nextPiece = new Canvas(6 * size, gameHeight);
         
         bp.setTop(addMenu());
@@ -104,7 +79,9 @@ public class Main extends Application{
         vb.getChildren().add(nextPiece);
         bp.setRight(vb);
         
-        root.getChildren().add(bp);
+        bp.setBottom(loadSoundtrack());
+        
+        root.getChildren().addAll(bp);
         
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext gc2 = nextPiece.getGraphicsContext2D();
@@ -160,6 +137,9 @@ public class Main extends Application{
                     toggleSpacePressed();
                 }
                 lastTime = currentNanoTime;
+                if (mPlayer != null) {
+                    mPlayer.setRate(1 + tetris.getGameSpeed() / 10.0);
+                }
                 tetris.advance();
             }
         };
@@ -182,10 +162,51 @@ public class Main extends Application{
                 togglePause(tetris, gc, size);
             } else if (event.getCode().equals(KeyCode.F2)) {
                 newGame(tetris, ats);
+            } else if (event.getCode().equals(KeyCode.M)) {
+                toggleMute(mPlayer);
             }
         });
         
         stage.show();
+        if (mPlayer != null) {
+            mPlayer.setCycleCount(-1);
+            mPlayer.play();
+        }
+    }
+    
+    private MediaView loadSoundtrack() {
+        try {
+            Media sound = new Media(getClass().getResource("/tetris.mp3").toURI().toString());
+            mPlayer = new MediaPlayer(sound);
+            return new MediaView(mPlayer);
+        } catch (Exception e) {
+            mPlayer = null;
+        }
+        return null;
+    }
+    
+    private String askPlayerName() {
+        TextInputDialog dialog = new TextInputDialog("PlayerName");
+        dialog.setTitle("Player Name");
+        dialog.setHeaderText("Name");
+        dialog.setContentText("Enter name:");
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setVisible(false);
+        Optional<String> result = dialog.showAndWait();
+        String playerName = "";
+        if (result.isPresent()) {
+            playerName = result.get();
+        }
+        if (playerName.isEmpty()) {
+            playerName = "Pingu";
+        }
+        return playerName;
+    }
+    
+    private void toggleMute(MediaPlayer player) {
+        if (player != null) {
+            player.setMute(!player.isMute());
+        }
     }
     
     private void togglePause(GameLogic tetris, GraphicsContext gc, int size) {
@@ -226,6 +247,11 @@ public class Main extends Application{
         }
     }
     
+    /**
+     * Game Over. Restart the game if the user wants to.
+     * @param tetris
+     * @param ats 
+     */
     private void gameOver(GameLogic tetris, AnimationTimer[] ats) {
         tetris.theEnd();
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -284,22 +310,14 @@ public class Main extends Application{
         for(Point point : piece.getParts()) {
             int x1 = x + point.getX();
             int y1 = y + point.getY();
-            gc.setFill(piece.getBorderColor());
-            gc.fillRect(x1 * size, y1 * size, size, size);
-            gc.setFill(piece.getColor());
-            gc.fillRect(x1 * size + 1, y1 * size + 1, size - 2, size - 2);
+            drawSquare(gc, size, x1, y1, piece.getBorderColor(), piece.getColor());
         }
     }
     
     private void drawPiece(GraphicsContext gc, Piece piece, int size) {
-        for(Point point : piece.getParts()) {
-            int x = piece.getLocation().getX() + point.getX();
-            int y = piece.getLocation().getY() + point.getY();
-            gc.setFill(piece.getBorderColor());
-            gc.fillRect(x * size, y * size, size, size);
-            gc.setFill(piece.getColor());
-            gc.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
-        }
+        int x = piece.getLocation().getX();
+        int y = piece.getLocation().getY();
+        drawPiece(gc, piece, size, x, y);
     }
     
     private void drawPieces(GraphicsContext gc, ColoredPoint[][] pieces, int size) {
@@ -308,19 +326,41 @@ public class Main extends Application{
             for (int col = 0; col < pieces[0].length; col++) {
                 if (pieces[row][col] != null) {
                     cp = pieces[row][col];
-                    gc.setFill(cp.getBorderColor());
-                    gc.fillRect(col * size,
-                                row * size,
-                                size,
-                                size);
-                    gc.setFill(cp.getColor());
-                    gc.fillRect(col * size + 1,
-                                row * size + 1,
-                                size - 2,
-                                size - 2);
+                    drawSquare(gc, size, col, row, cp.getBorderColor(), cp.getColor());
                 }
             }
 
         }
+    }
+    
+    /**
+     * Draws one square. ShiftX and shiftY are used to prevent drawing
+     * double margins between squares.
+     * @param gc
+     * @param size
+     * @param x 
+     * @param y
+     * @param bColor
+     * @param color 
+     */
+    private void drawSquare(GraphicsContext gc, int size, int x, int y, Color bColor, Color color) {
+        int shiftX = 1;
+        int shiftY = 1;
+        if (x == 0) {
+            shiftX = 0;
+        }
+        if (y == 0) {
+            shiftY = 0;
+        }
+        gc.setFill(bColor);
+        gc.fillRect(Math.max(0, x * size - 1),
+                    Math.max(0, y * size - 1),
+                    size + shiftX,
+                    size + shiftY);
+        gc.setFill(color);
+        gc.fillRect(x * size + Math.abs(shiftX - 1),
+                    y * size + Math.abs(shiftY - 1),
+                    size + shiftX - 2 ,
+                    size + shiftY - 2);
     }
 }

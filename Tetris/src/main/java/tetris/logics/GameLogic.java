@@ -19,7 +19,6 @@ import tetris.components.TPiece;
 import tetris.dao.Dao;
 import tetris.dao.Database;
 import tetris.dao.ScoresDao;
-import tetris.dao.ScoresFileDao;
 
 
 public class GameLogic {
@@ -37,21 +36,24 @@ public class GameLogic {
     private int personalBest;
     private Dao scores;
     private Database database;
-
-    public GameLogic(String playerName) {
-        this();
-        this.playerName = playerName;
-        getHighScore();
-    }
     
     public GameLogic() {
+        this("Pingu");
+    }
+
+    public GameLogic(String playerName) {
+        this(playerName, "database.db", "highscores");
+    }
+    
+    public GameLogic(String playerName, String dbName, String table) {
+        this.playerName = playerName;
         gameHeight = 20;
         gameWidth = 10;
         pieces = new ColoredPoint[gameHeight][gameWidth];
-        database = new Database("database.db");
-        scores = new ScoresDao(database, "highscores");
+        database = new Database(dbName);
+        scores = new ScoresDao(database, table);
         initializeGame();
-//        scores = new ScoresFileDao("topscores.txt");
+        initializeHighscore();
     }
     
     private void initializeGame() {
@@ -88,7 +90,7 @@ public class GameLogic {
         }
     }
     
-    private void getHighScore() {
+    private void initializeHighscore() {
         try {
             List<Score> scores = this.scores.findAll();
             Collections.sort(scores);
@@ -240,27 +242,6 @@ public class GameLogic {
                 if (x < 0 || x >= gameWidth) {
                     return true;
                 } else if (pieces[y][x] != null) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Returns ture if there is an obstacle next to the piece on the left.
-     * @param parts of a piece
-     * @return true if the piece would collide with something when moved left.
-     */
-    public boolean blockOnTheLeft(Piece piece) {
-        if(piece.getLocation().getX() == 0) {
-                return true;
-        }
-        for (Point part : piece.getParts()) {
-            int x = part.getX() + piece.getLocation().getX(); 
-            int y = part.getY() + piece.getLocation().getY();
-            if (x > -1 && y > -1 && x < gameWidth && y < gameHeight) {
-                if (pieces[y][x-1] != null) {
                     return true;
                 }
             }

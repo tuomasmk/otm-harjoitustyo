@@ -35,12 +35,12 @@ public class PieceTest {
     
     @Test
     public void rightColorIsReturned() {
-        assertEquals(Color.DODGERBLUE, piece.getColor());
+        assertEquals(Color.web("5884b3"), piece.getColor());
     }
     
     @Test
     public void rightBorderColorIsReturned() {
-        assertEquals(Color.BLUE, piece.getBorderColor());
+        assertEquals(Color.web("38587a"), piece.getBorderColor());
     }
     
     @Test

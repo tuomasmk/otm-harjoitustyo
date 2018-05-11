@@ -19,7 +19,7 @@ abstract public class Piece {
         int y = this.location.getY();
         if (tetris.touchesWall(this)) {
             int i = 0;
-            while (i++ < (this.length - 1) && tetris.touchesWall(this)) {// && !tetris.blockOnTheLeft(this)) {
+            while (i++ < (this.length - 1) && tetris.touchesWall(this)) {
                 doMove(-1, 0, 1);
             }
             if (tetris.touchesWall(this) || tetris.touchesFloor(this)) {

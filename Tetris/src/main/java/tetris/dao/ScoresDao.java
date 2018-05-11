@@ -21,26 +21,6 @@ public class ScoresDao implements Dao<Score, Integer> {
     }
 
     @Override
-    public Score findOne(Integer key) throws SQLException {
-        try (Connection conn = database.connect()) {
-            PreparedStatement stmt = conn.prepareStatement(
-                "SELECT * FROM " + tableName + " WHERE id = ?");
-            stmt.setInt(1, key);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                return createFromRow(rs);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error when looking for a row in " 
-                + tableName + " with id " + key);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
     public List<Score> findAll() throws SQLException {
         List<Score> tasks = new ArrayList<>();
 
@@ -86,11 +66,6 @@ public class ScoresDao implements Dao<Score, Integer> {
                 return createFromRow(result);
             }
         }
-    }
-
-    @Override
-    public void delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private Score createFromRow(ResultSet resultSet) throws SQLException {

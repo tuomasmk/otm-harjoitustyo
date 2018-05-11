@@ -9,8 +9,8 @@ public class TPiece extends Piece {
     public TPiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.DARKGREY;
-        this.borderColor = Color.DIMGREY;
+        this.color = Color.web("bebebe"); //Color.DARKGREY;
+        this.borderColor = Color.web("8c8c8c"); //Color.DIMGREY;
         this.parts = new Point[4];
         parts[0] = new Point(0, 1);
         parts[1] = new Point(1, 1);

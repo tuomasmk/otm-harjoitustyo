@@ -9,8 +9,8 @@ public class LPiece extends Piece {
     public LPiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.GOLD;
-        this.borderColor = Color.CORAL;
+        this.color = Color.web("e5cf6c"); //Color.GOLD;
+        this.borderColor = Color.web("98811b"); //Color.CORAL;
         this.parts = new Point[4];
         parts[0] = new Point(0, 0);
         parts[1] = new Point(0, 1);

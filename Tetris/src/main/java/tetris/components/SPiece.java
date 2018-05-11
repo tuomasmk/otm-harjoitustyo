@@ -9,8 +9,8 @@ public class SPiece extends Piece {
     public SPiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.DARKSEAGREEN;
-        this.borderColor = Color.GREEN;
+        this.color = Color.web("91be64"); //Color.DARKSEAGREEN;
+        this.borderColor = Color.web("597e35"); //Color.GREEN;
         this.parts = new Point[4];
         parts[0] = new Point(0, 1);
         parts[1] = new Point(1, 1);

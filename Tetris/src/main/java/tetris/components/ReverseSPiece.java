@@ -9,8 +9,8 @@ public class ReverseSPiece extends Piece {
     public ReverseSPiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.ORANGE;
-        this.borderColor = Color.CHOCOLATE;
+        this.color = Color.web("5bbe94"); //Color.ORANGE;
+        this.borderColor = Color.web("338060"); //Color.CHOCOLATE;
         this.parts = new Point[4];
         parts[0] = new Point(0, 0);
         parts[1] = new Point(1, 0);

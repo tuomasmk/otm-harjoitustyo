@@ -9,8 +9,8 @@ public class JPiece extends Piece {
     public JPiece(GameLogic tetris, int x, int y) {
         this.tetris = tetris;
         this.location = new Point(x, y);
-        this.color = Color.BLUEVIOLET;
-        this.borderColor = Color.DARKBLUE;
+        this.color = Color.web("cc6686"); //Color.BLUEVIOLET;
+        this.borderColor = Color.web("ac395e"); //862d49//Color.DARKBLUE;
         this.parts = new Point[4];
         parts[0] = new Point(1, 0);
         parts[1] = new Point(1, 1);
